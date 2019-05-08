@@ -24,8 +24,8 @@ std::shared_ptr<GameObject> PowerUpFactory::getPower(GameObject * ship)
 			return re;
 		}
 	}
-	if (rand() % 2) return hp();
-	return mineral();
+	if (rand() % 5 == 0) return hp();
+	if (rand() % 5 == 0) return mineral();
 }
 
 std::shared_ptr<ObjectTemplate> baseTemplate() {

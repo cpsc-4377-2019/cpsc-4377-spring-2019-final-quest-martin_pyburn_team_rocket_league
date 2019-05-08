@@ -60,7 +60,7 @@ bool SoundDevice::playSound(std::string &sound, int numLoops, int channel)
 void SoundDevice::setAsBackground(std::string &background)
 //**************************************
 {
-	setAsBackground(aLibrary->playBackgroundMusic(audioPath + background));
+	setAsBackground(aLibrary->playBackgroundMusic(musicPath + background));
 }
 
 void SoundDevice::setAsBackground(BackgroundMusic * background)
@@ -69,6 +69,20 @@ void SoundDevice::setAsBackground(BackgroundMusic * background)
 	{
 		printf("Mix_PlayMusic: %s\n", Mix_GetError());
 	}
+}
+
+Uint8 SoundDevice::setMusicVolume(Uint8 volume)
+{
+	Uint8 v = fmin(volume, 128);
+	Mix_VolumeMusic(v);
+	return v;
+}
+
+Uint8 SoundDevice::setSoundVolume(Uint8 volume)
+{
+	Uint8 v = fmin(volume, 128);
+	Mix_Volume(v, -1);
+	return v;
 }
 
 

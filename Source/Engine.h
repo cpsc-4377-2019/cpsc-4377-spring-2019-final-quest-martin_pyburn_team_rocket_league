@@ -62,7 +62,8 @@ private:
 
 	string imgPath = "./Assets/Images/";
 	string xmlPath = "./Assets/Config/";
-	string audioPath = "./Assets/Sounds/";
+	string musicPath = "./Assets/Music/";
+	string soundPath = "./Assets/Sounds/";
 
 	// MiniMap
 	unique_ptr<MiniMap> map = make_unique<MiniMap>(gDevice.get(), imgPath);

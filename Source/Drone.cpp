@@ -82,9 +82,15 @@ std::shared_ptr<GameObject> Drone::update()
 		}
 	}
 	else if (counterpart != nullptr) {
-		shared_ptr<GameObject> aggro = counterpart->getOwner()->getAggro();
+		shared_ptr<GameObject> cowner = counterpart->getOwner();
+		shared_ptr<GameObject> owner = getOwner();
+		if (cowner == nullptr || !cowner->live) {
+			owner->live = false;
+			return nullptr;
+		}
+		shared_ptr<GameObject> aggro = cowner->getAggro();
 		if (aggro != nullptr) {
-			getOwner()->aggro = aggro;
+			owner->aggro = aggro;
 
 			// face the aggro
 			shared_ptr<RidgidBody> body = getOwner()->getComponent<RidgidBody>();

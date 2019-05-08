@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Game>
-  <Level bgMusic="ft1.wav">
+  <Settings>
+    <Volume music="92" sound="92" />
+  </Settings>
+  <!-- <Level bgMusic="ft1.wav">
     <Ship type="Ship" name="Player1">
       <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
       <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
@@ -14,13 +17,14 @@
       <Sprite path="planetoid_30_1.png" />
       <FragBehavior />
     </Planetoid_1>
-  </Level>
-  <Level bgMusic="q30.mp3">
+  </Level> -->
+  <!-- <Level bgMusic="q30.mp3">
     <Ship type="Ship" name="Player1">
       <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
       <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
       <MissileLauncher />
       <PeaShooter />
+      <Drone/>
       <UserInput />
       <Integrity value="500" />
     </Ship>
@@ -29,7 +33,7 @@
       <Sprite path="planetoid_100_1.png" />
       <FragBehavior />
     </Planetoid_1>
-  </Level>
+  </Level> -->
   <Level bgMusic="q31.mp3" >
     <Ship type="Ship" name="Player1">
       <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />

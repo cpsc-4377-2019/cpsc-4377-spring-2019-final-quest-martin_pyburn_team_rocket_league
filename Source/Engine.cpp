@@ -14,12 +14,15 @@ Engine::Engine(string path)
 
 	library->imgPath = imgPath;
 	factory->xmlPath = xmlPath;
-	sound->audioPath = audioPath;
+	sound->musicPath = musicPath;
+	sound->soundPath = soundPath;
 
 	loadLevel(path);
+
 	// hide cursor
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_StopTextInput();
+
 	// establish boundaries
 	int w = gDevice->getWidth();
 	int h = gDevice->getHeight();
@@ -28,6 +31,25 @@ Engine::Engine(string path)
 	physics->createBoundary(topBound.get(), 0, -20, w, 20);
 	physics->createBoundary(rightBound.get(), w + 20, 0, 20, h);
 	physics->createBoundary(bottomBound.get(), 0, h + 20, w, 20);
+
+	// Apply settings
+	tinyxml2::XMLDocument doc;
+	if (doc.LoadFile(path.c_str()) != tinyxml2::XML_SUCCESS) {
+		printf("Bad File Path");
+		exit(1);
+	}
+	//Get root
+	tinyxml2::XMLElement* root = doc.FirstChildElement("Game");
+	root = root->FirstChildElement("Settings");
+	tinyxml2::XMLElement* volume = root->FirstChildElement("Volume");
+	int music;
+	if (volume->QueryIntAttribute("music", &music) == XML_SUCCESS) {
+		sound->setMusicVolume(music);
+	}
+	int noise;
+	if (volume->QueryIntAttribute("sound", &noise) == XML_SUCCESS) {
+		sound->setMusicVolume(noise);
+	}
 }
 
 
@@ -66,7 +88,6 @@ void Engine::loadLevel(string path)
 		const char* bgm;
 		if (root->QueryStringAttribute("bgMusic", &bgm) == XML_SUCCESS)
 			sound->setAsBackground((string)bgm);
-
 
 	// Load GameObjects from XML
 	for (tinyxml2::XMLElement* obj = root->FirstChildElement(); obj != NULL; obj = obj->NextSiblingElement())
