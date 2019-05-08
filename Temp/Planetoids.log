@@ -1,0 +1,183 @@
+﻿  Overwrite E:\JoshPyburn\School\Advanced Game Programming\Final\Game\Assets\Config\level1.xml (Yes/No/All)? 
+  Overwrite E:\JoshPyburn\School\Advanced Game Programming\Final\Game\Assets\Config\level1.xml (Yes/No/All)? E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2_image\libjpeg-9.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2_image\libpng16-16.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2_image\libtiff-5.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2_image\libwebp-7.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2_image\SDL2_image.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2_image\zlib1.dll
+          6 file(s) copied.
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libFLAC-8.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libfreetype-6.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libjpeg-9.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libmikmod-2.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libmodplug-1.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libogg-0.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libpng16-16.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libtiff-5.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libvorbis-0.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libvorbisfile-3.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\libwebp-4.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\SDL2.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\SDL2_image.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\SDL2_mixer.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\SDL2_ttf.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\smpeg2.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\ThirdParty\SDL2\lib\x86\zlib1.dll
+         17 file(s) copied.
+  Accelerate.cpp
+  AudioLibrary.cpp
+  AutoFireComponent.cpp
+e:\joshpyburn\school\advanced game programming\final\source\objectdefinitions.h(39): warning C4099: 'ObjectParams': type name first seen using 'class' now seen using 'struct'
+  e:\joshpyburn\school\advanced game programming\final\source\objectdefinitions.h(39): note: see declaration of 'ObjectParams'
+e:\joshpyburn\school\advanced game programming\final\source\autofirecomponent.cpp(17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  B2Debug.cpp
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(35): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(34): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(41): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(40): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(48): warning C4244: 'initializing': conversion from 'int32' to 'float', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(50): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(56): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(54): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(64): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(63): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(62): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(61): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(80): warning C4244: 'initializing': conversion from 'eFloat' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(81): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(88): warning C4244: 'argument': conversion from 'eFloat' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(87): warning C4244: 'argument': conversion from 'eFloat' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(86): warning C4244: 'argument': conversion from 'eFloat' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\b2debug.cpp(85): warning C4244: 'argument': conversion from 'eFloat' to 'int', possible loss of data
+  Component.cpp
+  ContactListener.cpp
+  ChaseBehavior.cpp
+e:\joshpyburn\school\advanced game programming\final\source\chasebehavior.cpp(12): warning C4244: '=': conversion from 'int' to 'eFloat', possible loss of data
+  DistanceSelectorNode.cpp
+  Drone.cpp
+e:\joshpyburn\school\advanced game programming\final\source\drone.cpp(19): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\drone.cpp(19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\drone.cpp(27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\drone.cpp(35): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Engine.cpp
+  Evade.cpp
+e:\joshpyburn\school\advanced game programming\final\source\evade.cpp(15): warning C4244: '=': conversion from 'int' to 'eFloat', possible loss of data
+  Expiration.cpp
+  ForceFieldComponent.cpp
+e:\joshpyburn\school\advanced game programming\final\source\forcefieldcomponent.cpp(25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\forcefieldcomponent.cpp(25): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\forcefieldcomponent.cpp(33): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Node.cpp
+  PowerUpComponent.cpp
+  MiniMap.cpp
+  ObjectFactory.cpp
+e:\joshpyburn\school\advanced game programming\final\source\autofirecomponent.h(7): warning C4099: 'ObjectParams': type name first seen using 'struct' now seen using 'class'
+  e:\joshpyburn\school\advanced game programming\final\source\integritycomponent.h(10): note: see declaration of 'ObjectParams'
+e:\joshpyburn\school\advanced game programming\final\source\objectfactory.cpp(236): warning C4018: '<': signed/unsigned mismatch
+  GameObject.cpp
+  InputHandler.cpp
+  IntegrityComponent.cpp
+  Compiling...
+  main.cpp
+  MissileLauncher.cpp
+e:\joshpyburn\school\advanced game programming\final\source\missilelauncher.cpp(19): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\missilelauncher.cpp(20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  ObjectListComponent.cpp
+  PeaShooter.cpp
+e:\joshpyburn\school\advanced game programming\final\source\peashooter.cpp(16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  PhysicsDevice.cpp
+  FragBehavior.cpp
+e:\joshpyburn\school\advanced game programming\final\source\fragbehavior.cpp(22): warning C4244: 'initializing': conversion from 'eFloat' to 'int', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\fragbehavior.cpp(25): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+e:\joshpyburn\school\advanced game programming\final\source\fragbehavior.cpp(46): warning C4018: '<': signed/unsigned mismatch
+  PowerUpFactory.cpp
+e:\joshpyburn\school\advanced game programming\final\source\powerupfactory.cpp(40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  RetreatNode.cpp
+  RidgidBodyComponent.cpp
+e:\joshpyburn\school\advanced game programming\final\source\ridgidbodycomponent.cpp(60): warning C4244: '=': conversion from 'int' to 'eFloat', possible loss of data
+  SelectSteeringNode.cpp
+  Sound.cpp
+  SoundDevice.cpp
+  SpriteComponent.cpp
+  Steering.cpp
+e:\joshpyburn\school\advanced game programming\final\source\steering.cpp(24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Texture.cpp
+  TextureLibrary.cpp
+  Timer.cpp
+  GraphicsDevice.cpp
+  UserInputComponent.cpp
+  tinyxml2.cpp
+  Microsoft (R) Incremental Linker Version 14.16.27027.1
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  "/OUT:E:\JoshPyburn\School\Advanced Game Programming\Final\Game\Planetoids.exe" SDL2.lib SDL2main.lib SDL2_image.lib Box2D.lib SDL2_mixer.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST "/MANIFESTUAC:level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FULL "/PDB:E:\JoshPyburn\School\Advanced Game Programming\Final\Game\Planetoids.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT "/IMPLIB:E:\JoshPyburn\School\Advanced Game Programming\Final\Game\Planetoids.lib" /SAFESEH "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Accelerate.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\AudioLibrary.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\AutoFireComponent.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\B2Debug.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Component.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\ContactListener.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\ChaseBehavior.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\DistanceSelectorNode.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Drone.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Engine.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Evade.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Expiration.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\ForceFieldComponent.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Node.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\PowerUpComponent.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\MiniMap.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\ObjectFactory.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\GameObject.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\InputHandler.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\IntegrityComponent.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\main.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\MissileLauncher.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\ObjectListComponent.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\PeaShooter.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\PhysicsDevice.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\FragBehavior.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\PowerUpFactory.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\RetreatNode.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\RidgidBodyComponent.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\SelectSteeringNode.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Sound.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\SoundDevice.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\SpriteComponent.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Steering.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Texture.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\TextureLibrary.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\Timer.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\GraphicsDevice.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\UserInputComponent.obj" 
+  "E:\JoshPyburn\School\Advanced Game Programming\Final\Temp\tinyxml2.obj" 
+  Generating code
+  4038 of 4062 functions (99.4%) were compiled, the rest were copied from previous compilation.
+    180 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Planetoids.vcxproj -> E:\JoshPyburn\School\Advanced Game Programming\Final\Game\Planetoids.exe
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libFLAC-8.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libfreetype-6.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libjpeg-9.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libmikmod-2.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libmodplug-1.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libogg-0.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libpng16-16.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libtiff-5.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libvorbis-0.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libvorbisfile-3.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libwebp-4.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\libwebp-7.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\SDL2.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\SDL2_image.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\SDL2_mixer.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\SDL2_ttf.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\smpeg2.dll
+  E:\JoshPyburn\School\Advanced Game Programming\Final\zlib1.dll
+         18 file(s) moved.

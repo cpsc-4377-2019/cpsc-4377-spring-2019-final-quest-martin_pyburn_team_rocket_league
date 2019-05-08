@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Game>
+  <Level bgMusic="ft1.wav">
+    <Ship type="Ship" name="Player1">
+      <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
+      <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
+      <MissileLauncher />
+      <PeaShooter />
+      <UserInput />
+      <Integrity value="1000" />
+    </Ship>
+    <Planetoid_1 type="Planetoid" external="planetoid_30_1.xml">
+      <Body x ="300" y="600" a="1.5708" va="25" vx="0.2" vy="-1" />
+      <Sprite path="planetoid_30_1.png" />
+      <FragBehavior />
+    </Planetoid_1>
+  </Level>
+  <Level bgMusic="q30.mp3">
+    <Ship type="Ship" name="Player1">
+      <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
+      <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
+      <MissileLauncher />
+      <PeaShooter />
+      <UserInput />
+      <Integrity value="500" />
+    </Ship>
+    <Planetoid_1 type="Planetoid" external="planetoid_100_1.xml">
+      <Body x ="300" y="600" a="1.5708" va="25" vx="0.2" vy="-1" />
+      <Sprite path="planetoid_100_1.png" />
+      <FragBehavior />
+    </Planetoid_1>
+  </Level>
+  <Level bgMusic="q31.mp3" >
+    <Ship type="Ship" name="Player1">
+      <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
+      <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
+      <MissileLauncher />
+      <PeaShooter />
+      <UserInput />
+      <Integrity value="500" />
+    </Ship>
+    <Enemy type="Enemy" damage="50" aggro="Player1">
+      <Body density="5" layer="-2" x="100.0" y="390" a="1.0" cx="10" cy="10.5"/>
+      <Sprite path="beetle.png" sx="0" sy="0" sw="20" sh="21" />
+      <SteerBehavior radius="100" value="100" />
+      <Integrity value="150" />
+      <AutoFire radius="200" value="20" />
+      <PeaShooter />
+      <ForceField value="20" />
+      <Drone />
+    </Enemy>
+    <Planetoid_1 type="Planetoid" external="planetoid_100_1.xml">
+      <Body x ="300" y="600" a="1.5708" va="25" vx="0.2" vy="-1" />
+      <Sprite path="planetoid_100_1.png" />
+      <FragBehavior />
+    </Planetoid_1>
+    <Planetoid_2 type="Planetoid" external="planetoid_120_1.xml">
+      <Body x ="600" y="200" a="1.5708" va="15" vx="-1.2" vy="2" />
+      <Sprite path="planetoid_120_1.png" />
+      <FragBehavior />
+    </Planetoid_2>
+  </Level>
+</Game>
