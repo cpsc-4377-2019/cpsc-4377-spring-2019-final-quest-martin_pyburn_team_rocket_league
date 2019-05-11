@@ -23,6 +23,7 @@ void Frag::initialize(ObjectFactory* factory) {
 	int layer = parentBody->layer;
 	bool shell = parentBody->shell;
 	params.value = area * layer / 5 + (shell ? 100 : 0);
+	getOwner()->points = params.value;
 	newIntegrity->initialize(&params);
 	getOwner()->addComponent(dynamic_pointer_cast<Component>(newIntegrity));
 }

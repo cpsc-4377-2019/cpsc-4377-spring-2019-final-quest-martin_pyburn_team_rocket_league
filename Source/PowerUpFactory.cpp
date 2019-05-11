@@ -44,6 +44,7 @@ std::shared_ptr<ObjectTemplate> baseTemplate() {
 std::shared_ptr<GameObject> PowerUpFactory::forceField(eFloat integrity) {
 	std::shared_ptr<GameObject> obj = make_shared<GameObject>();
 	obj->type = objectTypes::POWERUP;
+	obj->points = 10;
 
 	std::shared_ptr<ObjectTemplate> temp = baseTemplate();
 
@@ -61,6 +62,7 @@ std::shared_ptr<GameObject> PowerUpFactory::drone() {
 
 	std::shared_ptr<GameObject> obj = make_shared<GameObject>();
 	obj->type = objectTypes::POWERUP;
+	obj->points = 10;
 
 	std::shared_ptr<ObjectTemplate> temp = baseTemplate();
 
@@ -77,6 +79,7 @@ std::shared_ptr<GameObject> PowerUpFactory::hp()
 	std::shared_ptr<GameObject> obj = make_shared<GameObject>();
 	obj->type = objectTypes::POWERUP;
 	obj->damage = -100.f;
+	obj->points = 10;
 
 	std::shared_ptr<ObjectTemplate> temp = baseTemplate();
 

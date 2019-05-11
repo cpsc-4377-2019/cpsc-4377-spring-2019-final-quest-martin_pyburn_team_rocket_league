@@ -127,7 +127,6 @@ void Engine::update()
 			{
 				score += objects[it]->score;
 				objects[it]->score = 0;
-				cout << score << endl;
 			}
 			if (newObject != nullptr) {
 				nursery.push_back(newObject);
@@ -257,9 +256,8 @@ void Engine::drawScore()
 	int width, height;
 	int textX, textY;
 	SDL_QueryTexture(textSheetTexture, NULL, NULL, &width, &height);
-	cout << width << " " << height << endl;
 	textX = (gDevice->getWidth() - width - 5);
-	textY = height + 5;
+	textY = 5;
 	SDL_Rect renderQuad = { textX, textY, width, height };
 	//Render to screen
 	SDL_RenderCopy(gDevice.get()->getRenderer(), textSheetTexture, NULL, &renderQuad);

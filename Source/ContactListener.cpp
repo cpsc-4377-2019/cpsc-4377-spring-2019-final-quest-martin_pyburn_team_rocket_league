@@ -74,7 +74,7 @@ void ContactListener::BulletHit(std::shared_ptr<GameObject> bullet, std::shared_
 	if (target->live && bullet->origin != nullptr && bullet->origin->type == objectTypes::SHIP) {
 		bullet->origin->aggro = target;
 	}
-	if (!target->live) {
+	if (targeti->integrity <= 0) {
 		bullet->origin->score += target->points;
 	}
 }
@@ -84,7 +84,7 @@ void ContactListener::MissileHit(std::shared_ptr<GameObject> missile, std::share
 	shared_ptr<Integrity> targeti = target->getComponent<Integrity>();
 	if (targeti != nullptr) targeti->damage(missile->damage);
 
-	if (!target->live) {
+	if (targeti->integrity <= 0) {
 		missile->origin->score += target->points;
 	}
 	// generate particles...
@@ -113,7 +113,7 @@ void ContactListener::ShipCrash(std::shared_ptr<GameObject> ship, std::shared_pt
 			shipi->damage(sdamage);
 			float ndamage = ship->damage + sbody->getArea() / 500.f * mag;
 			if (noti != nullptr) noti->damage(ndamage);
-			if (!notship->live) {
+			if (noti->integrity <= 0) {
 				ship->score += notship->points;
 			}
 		}
