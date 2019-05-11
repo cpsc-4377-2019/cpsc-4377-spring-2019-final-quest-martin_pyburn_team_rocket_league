@@ -11,7 +11,7 @@ Particle::~Particle()
 bool Particle::update()
 {
 	// determine the current offset amount
-	eFloat delta = (eFloat)initialspan / (eFloat)lifespan;
+	eFloat delta = (eFloat)lifespan / (eFloat)initialspan;
 
 	// adjust color
 	color.R = endcol.R - (eInt)(delta * colspan[0]);
@@ -19,8 +19,8 @@ bool Particle::update()
 	color.B = endcol.B - (eInt)(delta * colspan[2]);
 	color.A = endcol.A - (eInt)(delta * colspan[3]);
 
-	position.x += velocity.x;
-	position.y += velocity.y;
+	velocity += gravity;
+	position += velocity;
 
 	angle += rotation;
 

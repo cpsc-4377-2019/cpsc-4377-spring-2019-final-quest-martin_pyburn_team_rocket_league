@@ -34,6 +34,7 @@ struct ParticleParams {
 	RGBA color;
 	RGBA endcol;
 	eFloat variance{ 0.2f };
+	Vector2D gravity{ 0.f, 0.f };
 	// certain parameters are randomized within (variance <= 1 to 1) x passed value
 };
 
@@ -52,6 +53,7 @@ public:
 
 	void setPosition(Vector2D);
 	void setAngle(eFloat);
+	void setSpeed(eFloat);
 
 private:
 

@@ -25,6 +25,7 @@ public:
 
 	Vector2D position;
 	Vector2D velocity;
+	Vector2D gravity;
 	eFloat angle;
 	eFloat rotation;
 
@@ -33,7 +34,7 @@ public:
 	
 	RGBA color;
 	RGBA endcol;
-	eInt colspan[4];
+	int colspan[4];
 
 };
 

@@ -53,13 +53,13 @@ void Emitter::start()
 
 std::shared_ptr<GameObject> Emitter::update()
 {
-	if (!this->activated)return nullptr;
 	for (eInt p = 0; p < particles.size(); ) {
 		// update particles
 		if (particles[p]->update())p++;
 		// purge expired particles
 		else particles.erase(particles.begin() + p);
 	}
+	if (!this->activated)return nullptr;
 	if (params->lifespan != 0) {
 		// create ppf new particles
 		for (eInt p = 0; p < params->ppf; p++) {
@@ -75,8 +75,8 @@ std::shared_ptr<GameObject> Emitter::update()
 			eFloat angle = randf(params->angle - params->range, params->angle + params->range);
 			
 			particle->position = Vector2D{ params->x, params->y };
-			particle->velocity = Vector2D{ cosf(angle) * speed, sinf(angle) * speed };
-
+			particle->velocity = Vector2D{ cosf(angle * DEG_TO_RAD) * speed, sinf(angle * DEG_TO_RAD) * speed };
+			particle->gravity = params->gravity;
 			particle->angle = randf(0.f, 360.f);
 			particle->rotation = (rand() % 1 - 1) * randf(avmin, params->rotation);
 
@@ -116,6 +116,11 @@ void Emitter::setPosition(Vector2D pos)
 void Emitter::setAngle(eFloat angle)
 {
 	params->angle = angle;
+}
+
+void Emitter::setSpeed(eFloat speed)
+{
+	params->speed = speed;
 }
 
 eFloat Emitter::randf(eFloat m, eFloat M)

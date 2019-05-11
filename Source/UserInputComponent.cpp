@@ -19,16 +19,16 @@ void UserInput::initialize(GraphicsDevice* gDevice, InputHandler* input, string 
 	params->texture = "./Assets/Images/puff.png";
 	params->ppf = 1;
 	params->lifespan = -1;
-	params->parttime = 15;
+	params->parttime = 25;
 	params->rx = 0;
 	params->ry = 0;
-	params->rw = 5;
-	params->rh = 5;
-	params->cx = 2.5f;
-	params->cy = 2.5f;
+	params->rw = 8;
+	params->rh = 8;
+	params->cx = 4.f;
+	params->cy = 4.f;
 	params->angle = 180.f;
-	params->range = 1.f;
-	params->speed = 300.f;
+	params->range = .3f;
+	params->speed = 5.f;
 	params->color = { 234, 255, 0, 196 };
 	params->endcol = { 128, 96, 96, 16 };
 
@@ -53,19 +53,24 @@ std::shared_ptr<GameObject> UserInput::update()
 	/////////////////////////////
 	// get input component
 	shared_ptr<UserInput> input = getOwner()->getComponent<UserInput>();
+
 	if (input == nullptr) return nullptr;
-	if (input->inputStatus(InputHandler::Inputs::FORWARD)) {
 
-		eFloat angle = body->getAngle();
-
-		shared_ptr<Emitter> jets = getOwner()->getComponent<Emitter>();
-		jets->setPosition(body->getPosition());
-		jets->setActivation(angle + 180.f);
-		jets->setActivation(true);
+	// adjust jet emitter
+	shared_ptr<Emitter> jets = getOwner()->getComponent<Emitter>();
+	Vector2D pos = body->getPosition();
+	eFloat angle = body->getAngle();
+	eFloat cosine = cosf(angle * DEG_TO_RAD);
+	eFloat sine = sinf(angle * DEG_TO_RAD);
+	Vector2D new_comp{ cosine, sine };
+	jets->setPosition({pos.x + 5.f - cosine * 11.f, pos.y + 5.f - sine * 11.f });
+	jets->setAngle(angle + 180.f);
+	bool forward = input->inputStatus(InputHandler::Inputs::FORWARD);
+	jets->setActivation(forward);
+	if (forward) {
 
 		eFloat imp = speed * body->density;
 		// move forward
-		Vector2D new_comp{ cosf(angle * DEG_TO_RAD), sinf(angle * DEG_TO_RAD) };
 		body->applyImpulse(Vector2D{ new_comp.x * imp, new_comp.y * imp });
 
 		Vector2D current_vel = body->getVelocity();
@@ -76,15 +81,6 @@ std::shared_ptr<GameObject> UserInput::update()
 		float citation = speedLimit - mag;
 		if (citation < 0)
 			body->applyImpulse(Vector2D{current_comp.x * citation , current_comp.y * citation });
-
-		//Vector2D newVel = *body->velocity + Vector2D({ new_comp.x * speed, new_comp.y * speed });
-		//float mag = sqrtf(powf(newVel.x, 2) + powf(newVel.y, 2));
-		//if (mag >= speedLimit) {
-		//	body->velocity->x -= current_comp.x * speed;
-		//	body->velocity->y -= current_comp.y * speed;
-		//}
-		//body->velocity->x += new_comp.x * speed;
-		//body->velocity->y += new_comp.y * speed;
 	}
 	if (input->inputStatus(InputHandler::Inputs::LEFT))
 		body->setRotation(-turnSpeed);

@@ -6,6 +6,7 @@
 #include "PhysicsDevice.h"
 #include "RidgidBodyComponent.h"
 #include "SpriteComponent.h"
+#include "ParticleEmitter.h"
 #include "MiniMap.h"
 #include "SDL_ttf.h"
 
@@ -83,7 +84,7 @@ void Engine::loadLevel(string path)
 	if (root == nullptr) {
 		gameover = true;
 		sound->setAsBackground(string("win.wav"));
-		SDL_SetRenderDrawColor(gDevice->getRenderer(), 0, 64, 0, 255);
+		SDL_SetRenderDrawColor(gDevice->getRenderer(), 0, 0, 0, 255);
 		int center = gDevice->getWidth() / 2;
 		queueText({ "CONGRATULATIONS", center, 50, 45, 255, 0, 255, CENTER });
 		queueText({ "YOU WIN!!", center, 150, 35, 0, 192, 255, CENTER });
@@ -92,7 +93,28 @@ void Engine::loadLevel(string path)
 		queueText({ "Finis Martin", center, 330, 20, 128, 128, 255, CENTER });
 		queueText({ "Josh Pyburn", center, 360, 20, 128, 128, 255, CENTER });
 		queueText({ "Thanks for playing!", center, 450, 30, 196, 255, 64, CENTER });
-		// END OF GAME
+		shared_ptr<GameObject> fireworks = make_shared<GameObject>();
+		fireworks->type = objectTypes::COMPONENT;
+		shared_ptr<Emitter> emitter = make_shared<Emitter>(fireworks);
+		shared_ptr<ParticleParams> params = make_shared<ParticleParams>();
+		params->x = center;
+		params->y = 200;
+		params->texture = imgPath + "puff.png";
+		params->cx = params->cy = 2.5f;
+		params->rx = params->ry = 0;
+		params->rw = params->rh = 5;
+		params->lifespan = -1;
+		params->parttime = 20;
+		params->ppf = 50;
+		params->range = 360.f;
+		params->speed = 20.f;
+		params->gravity = { 0.f, 1.5f };
+		params->color.setRGB(0xaaff60);
+		params->endcol.setRGB(0xaa3030);
+		emitter->initialize(gDevice.get(), params);
+		fireworks->addComponent(emitter);
+		fireworks->initialize();
+		objects.push_back(fireworks);
 		return;
 	}
 
@@ -126,7 +148,6 @@ void Engine::update()
 
 	Uint32 it;
 	bool win = true;
-
 	for (it = 0; it < objects.size(); it++ )
 	{
 		if (it == objects.size() - 1)objects[it]->draw();
@@ -161,10 +182,10 @@ void Engine::update()
 			int middle = gDevice->getHeight() / 2;
 			queueText({ "Level " + to_string(level) + " completed", center, middle - 20, 40, 255, 255, 255, CENTER });
 			queueText({ "Score: " + to_string(final_score), center, middle + 40, 20, 128, 128, 255, CENTER });
-			queueText({ "Press [Enter] to continue", center, middle + 70, 12, 128, 128, 128, CENTER });
+			queueText({ "Press [Enter] to continue", center, middle + 70, 12, 128, 128, 196, CENTER });
+			SDL_SetRenderDrawColor(gDevice->getRenderer(), 0, 0, 64, 255);
 		}
 		lobby = true;
-		SDL_SetRenderDrawColor(gDevice->getRenderer(), 0, 0, 64, 255);
 	}
 	for (it = 0; it < nursery.size(); it++) {
 		objects.push_back(nursery[it]);
@@ -221,6 +242,7 @@ bool Engine::run()
 
 	while (SDL_PollEvent(&Event))
 	{
+		if (Event.type == SDL_KEYDOWN && gameover)exit(0);
 		if (Event.type == SDL_KEYDOWN && Event.key.keysym.sym == SDLK_RETURN && lobby) {
 			lobby = false;
 			paused = true;
