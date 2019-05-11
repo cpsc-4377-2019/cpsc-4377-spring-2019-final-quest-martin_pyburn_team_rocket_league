@@ -94,6 +94,7 @@ std::shared_ptr<GameObject> Emitter::update()
 		}
 		params->lifespan--;
 	}
+	else getOwner()->live = false;
 	return nullptr;
 }
 

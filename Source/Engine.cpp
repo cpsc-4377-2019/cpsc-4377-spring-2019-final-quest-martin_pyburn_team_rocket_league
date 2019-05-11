@@ -58,11 +58,13 @@ Engine::Engine(string path)
 
 Engine::~Engine() {
 	vector<shared_ptr<GameObject>>().swap(objects);
+	vector<textOutput>().swap(textout);
 }
 
 
 void Engine::loadLevel(string path)
 {
+	clearText();
 	current_map = path;
 	tinyxml2::XMLDocument doc;
 	if (doc.LoadFile(path.c_str()) != tinyxml2::XML_SUCCESS) {
@@ -79,18 +81,27 @@ void Engine::loadLevel(string path)
 
 	// check if END
 	if (root == nullptr) {
+		gameover = true;
+		sound->setAsBackground(string("win.wav"));
 		SDL_SetRenderDrawColor(gDevice->getRenderer(), 0, 64, 0, 255);
-		cout << "CONGRATULATIONS!!!" << endl;
-		system("pause");
-		exit(0);
+		int center = gDevice->getWidth() / 2;
+		queueText({ "CONGRATULATIONS", center, 50, 45, 255, 0, 255, CENTER });
+		queueText({ "YOU WIN!!", center, 150, 35, 0, 192, 255, CENTER });
+		queueText({ "Final score: " + std::to_string(final_score), center, 200, 20, 255, 255, 255, CENTER });
+		queueText({ "Team Rocket Spring 2019", center, 280, 20, 255, 255, 255, CENTER });
+		queueText({ "Finis Martin", center, 330, 20, 128, 128, 255, CENTER });
+		queueText({ "Josh Pyburn", center, 360, 20, 128, 128, 255, CENTER });
+		queueText({ "Thanks for playing!", center, 450, 30, 196, 255, 64, CENTER });
 		// END OF GAME
 		return;
 	}
 
 	// Load BackgroundMusic
 		const char* bgm;
-		if (root->QueryStringAttribute("bgMusic", &bgm) == XML_SUCCESS)
-			sound->setAsBackground((string)bgm);
+		if (root->QueryStringAttribute("bgMusic", &bgm) == XML_SUCCESS && currentsong != bgm) {
+			currentsong = bgm;
+			sound->setAsBackground(currentsong);
+		}
 
 	// Load GameObjects from XML
 	for (tinyxml2::XMLElement* obj = root->FirstChildElement(); obj != NULL; obj = obj->NextSiblingElement())
@@ -143,9 +154,17 @@ void Engine::update()
 	}
 	if (win && !lobby) {
 		level++;
+		if (!gameover) {
+			final_score += score;
+			score = 0;
+			int center = gDevice->getWidth() / 2;
+			int middle = gDevice->getHeight() / 2;
+			queueText({ "Level " + to_string(level) + " completed", center, middle - 20, 40, 255, 255, 255, CENTER });
+			queueText({ "Score: " + to_string(final_score), center, middle + 40, 20, 128, 128, 255, CENTER });
+			queueText({ "Press [Enter] to continue", center, middle + 70, 12, 128, 128, 128, CENTER });
+		}
 		lobby = true;
 		SDL_SetRenderDrawColor(gDevice->getRenderer(), 0, 0, 64, 255);
-		// Display final score
 	}
 	for (it = 0; it < nursery.size(); it++) {
 		objects.push_back(nursery[it]);
@@ -182,7 +201,8 @@ void Engine::draw()
 
 	if(debug)physics->debugDraw();
 	
-	drawScore();
+	if(batchText()) drawScore();
+	;
 	gDevice->present();
 }
 
@@ -218,6 +238,7 @@ bool Engine::run()
 			paused = true;
 			SDL_SetRenderDrawColor(gDevice->getRenderer(), 0, 0, 0, 255);
 			objects.clear();
+			score = 0;
 			loadLevel(current_map);
 			paused = false;
 		}
@@ -245,22 +266,44 @@ bool Engine::run()
 	return true;
 }
 
-void Engine::drawScore()
+void Engine::queueText(textOutput output)
 {
-	TTF_Font* normalFont = TTF_OpenFont((fontPath + "PixelOperator8-Bold.ttf").c_str(), 20);
-	if(normalFont == nullptr) printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
-	SDL_Color textColor = { 225, 225, 225 };
-	int tempScore = score;
-	string scoreText = std::to_string(score);
-	SDL_Texture* textSheetTexture = SDL_CreateTextureFromSurface(gDevice.get()->getRenderer(), TTF_RenderText_Solid(normalFont, scoreText.c_str(), textColor));
+	textout.push_back(output);
+}
+
+bool Engine::batchText()
+{
+	for (auto t : textout) drawText(t);
+	return textout.size() == 0;
+}
+
+void Engine::clearText()
+{
+	vector<textOutput>().swap(textout);
+}
+
+void Engine::drawText(textOutput output)
+{
+	TTF_Font* normalFont = TTF_OpenFont((fontPath + "PixelOperator8-Bold.ttf").c_str(), output.size);
+	SDL_Color textColor = { output.red, output.green, output.blue };
+	SDL_Texture* textSheetTexture = SDL_CreateTextureFromSurface(gDevice.get()->getRenderer(), TTF_RenderText_Solid(normalFont, output.text.c_str(), textColor));
 	int width, height;
-	int textX, textY;
 	SDL_QueryTexture(textSheetTexture, NULL, NULL, &width, &height);
-	textX = (gDevice->getWidth() - width - 5);
-	textY = 5;
-	SDL_Rect renderQuad = { textX, textY, width, height };
+	int rx;
+	switch (output.align) {
+	case LEFT: rx = output.x; break;
+	case RIGHT: rx = output.x - width; break;
+	case CENTER: rx = output.x - width / 2; break;
+	}
+	SDL_Rect renderQuad = { rx, output.y, width, height };
 	//Render to screen
 	SDL_RenderCopy(gDevice.get()->getRenderer(), textSheetTexture, NULL, &renderQuad);
+}
+
+void Engine::drawScore()
+{
+	scoreText.text = to_string(final_score + score);
+	drawText(scoreText);
 }
 
 GameObject* Engine::getShip()

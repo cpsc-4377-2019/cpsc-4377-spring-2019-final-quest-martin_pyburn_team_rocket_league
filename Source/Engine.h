@@ -25,6 +25,23 @@ public:
 	void draw();
 	bool run();
 
+	enum textAlignment { LEFT, RIGHT, CENTER };
+	struct textOutput {
+		string text{ "" };
+		int x{ 0 };
+		int y{ 0 };
+		int size{ 20 };
+		int red{ 255 };
+		int green{ 255 };
+		int blue{ 255 };
+		textAlignment align{ LEFT };
+	};
+
+	textAlignment t_align{ LEFT };
+	void queueText(textOutput);
+	bool batchText();
+	void clearText();
+	void drawText(textOutput);
 	void drawScore();
 
 	GameObject* getShip();
@@ -59,12 +76,13 @@ private:
 	unique_ptr<ObjectFactory> factory =
 		make_unique<ObjectFactory>(this, gDevice->getRenderer(), input.get(), library.get(), physics.get(), gDevice.get());
 
+	// paths
 	string imgPath = "./Assets/Images/";
 	string xmlPath = "./Assets/Config/";
 	string musicPath = "./Assets/Music/";
 	string soundPath = "./Assets/Sounds/";
 	string fontPath = "./Assets/Fonts/";
-
+	
 	// MiniMap
 	unique_ptr<MiniMap> map = make_unique<MiniMap>(gDevice.get(), imgPath);
 	bool drawMap{ true };
@@ -77,18 +95,24 @@ private:
 	bool paused{ false };
 	bool lobby{ false };
 	bool debug{ false };
+	bool gameover{ false };
 	int level{ 0 };
+	int final_score = 0;
 	int score = 0;
 
 	GameObject* ship;
 
 	string current_map{ "" };
+	string currentsong;
 
 	unique_ptr<RidgidBody> leftBound	= make_unique<RidgidBody>(make_unique<GameObject>());
 	unique_ptr<RidgidBody> rightBound	= make_unique<RidgidBody>(make_unique<GameObject>());
 	unique_ptr<RidgidBody> topBound		= make_unique<RidgidBody>(make_unique<GameObject>());
 	unique_ptr<RidgidBody> bottomBound	= make_unique<RidgidBody>(make_unique<GameObject>());
 
+	// text rendering
+	vector<textOutput> textout;
+	textOutput scoreText{ "0", gDevice->getWidth() - 5, 5, 20, 255, 255, 255, RIGHT };
 };
 
 
