@@ -26,8 +26,8 @@ public:
 	bool run();
 
 
-	int getScore() { return score; };
-
+	void drawScore();
+	
 	GameObject* getShip();
 
 
@@ -38,7 +38,7 @@ private:
 	vector<GameObject*> getPowerUps();
 	vector<GameObject*> getMunitions();
 	vector<GameObject*> getComponents();
-
+	
 	vector<shared_ptr<GameObject>> objects;
 	unique_ptr<GraphicsDevice> gDevice = make_unique<GraphicsDevice>();
 
@@ -56,7 +56,7 @@ private:
 	unique_ptr<PhysicsDevice> physics =
 		make_unique<PhysicsDevice>(Vector2D{ 0.f, 0.f }, gDevice.get());	// there is no gravity
 
-	// create factory
+																			// create factory
 	unique_ptr<ObjectFactory> factory =
 		make_unique<ObjectFactory>(this, gDevice->getRenderer(), input.get(), library.get(), physics.get());
 
@@ -78,16 +78,16 @@ private:
 	bool lobby{ false };
 	bool debug{ false };
 	int level{ 0 };
-	int score;
+	int score=0;
 
 	GameObject* ship;
 
 	string current_map{ "" };
 
-	unique_ptr<RidgidBody> leftBound	= make_unique<RidgidBody>(make_unique<GameObject>());
-	unique_ptr<RidgidBody> rightBound	= make_unique<RidgidBody>(make_unique<GameObject>());
-	unique_ptr<RidgidBody> topBound		= make_unique<RidgidBody>(make_unique<GameObject>());
-	unique_ptr<RidgidBody> bottomBound	= make_unique<RidgidBody>(make_unique<GameObject>());
+	unique_ptr<RidgidBody> leftBound = make_unique<RidgidBody>(make_unique<GameObject>());
+	unique_ptr<RidgidBody> rightBound = make_unique<RidgidBody>(make_unique<GameObject>());
+	unique_ptr<RidgidBody> topBound = make_unique<RidgidBody>(make_unique<GameObject>());
+	unique_ptr<RidgidBody> bottomBound = make_unique<RidgidBody>(make_unique<GameObject>());
 
 };
 

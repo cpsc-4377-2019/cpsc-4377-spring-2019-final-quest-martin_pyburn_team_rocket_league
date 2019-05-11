@@ -4,7 +4,7 @@
 #include "Definitions.h"
 class GameObject;
 
-enum objectTypes { SHIP, PLANETOID, ENEMY, POWERUP, BULLET, MISSILE, COMPONENT, NA };
+enum objectTypes { SHIP, PLANETOID, ENEMY, POWERUP, BULLET, MISSILE, COMPONENT,MINERAL, NA };
 const map <string, int> objectTypesIndex{
 	{ "Ship", objectTypes::SHIP },
 	{ "Planetoid", objectTypes::PLANETOID },
@@ -12,7 +12,9 @@ const map <string, int> objectTypesIndex{
 	{ "PowerUp", objectTypes::POWERUP },
 	{ "Bullet", objectTypes::BULLET },
 	{ "Missile", objectTypes::MISSILE },
-	{ "Component", objectTypes::COMPONENT }
+	{ "Component", objectTypes::COMPONENT },
+	{"Mineral",objectTypes::MINERAL}
+
 };
 
 enum objectComponents { BODY, SPRITE, USERINPUT, CHILDREN, CHASEBEHAVIOR, EVADEBEHAVIOR, STEERBEHAVIOR, EXPIRE, INTEGRITY, FRAGBEHAVIOR, PEASHOOTER, MISSILELAUNCHER, ACCELERATE, DRONE, AUTOFIRE, FORCEFIELD, END };

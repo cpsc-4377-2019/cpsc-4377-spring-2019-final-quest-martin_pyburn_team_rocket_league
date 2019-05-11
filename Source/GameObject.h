@@ -56,6 +56,7 @@ public:
 
 	bool initialized{ false };
 	bool distress{ false };
+	bool scored{ false };
 protected:
 
 	vector<shared_ptr<Component>> components;
