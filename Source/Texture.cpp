@@ -42,10 +42,14 @@ Texture::Texture(GraphicsDevice* gDevice, const std::string &path)
 
 }
 
-void Texture::draw( Vector2D& position, float angle, shared_ptr<Vector2D> centerPoint, shared_ptr<SDL_Rect> clip, int winW, int winH )
+void Texture::draw( Vector2D& position, float angle, shared_ptr<Vector2D> centerPoint, shared_ptr<SDL_Rect> clip, eInt winW, eInt winH, eInt red, eInt green, eInt blue, eInt alpha)
 {
 	if ( &sprite != nullptr )
 	{
+		SDL_SetTextureColorMod(sprite, red, green, blue);
+
+		// apply alpha mod
+		SDL_SetTextureAlphaMod(sprite, alpha);
 		if (winW == 0)winW = gDevice->getWidth();
 		if (winH == 0)winH = gDevice->getHeight();
 
@@ -82,15 +86,6 @@ void Texture::draw( Vector2D& position, float angle, shared_ptr<Vector2D> center
 			}
 		}
 	}
-}
-
-void Texture::setRGBA(RGBA rgba)
-{
-	// apply color mod
-	SDL_SetTextureColorMod(sprite, rgba.R, rgba.G, rgba.B);
-
-	// apply alpha mod
-	SDL_SetTextureAlphaMod(sprite, rgba.A);
 }
 
 void Texture::setWH(int w, int h) {

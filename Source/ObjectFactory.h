@@ -16,11 +16,12 @@ class InputHandler;
 class TextureLibrary;
 struct SDL_Renderer;
 class PhysicsDevice;
+class GraphicsDevice;
 class PowerUpFactory;
 
 class ObjectFactory {
 public:
-	ObjectFactory( Engine* engine, SDL_Renderer*, InputHandler*, TextureLibrary*, PhysicsDevice*);
+	ObjectFactory( Engine* engine, SDL_Renderer*, InputHandler*, TextureLibrary*, PhysicsDevice*, GraphicsDevice*);
 	~ObjectFactory();
 
 	void applyXML(XMLElement*, vector<shared_ptr<GameObject>>*);
@@ -40,6 +41,7 @@ private:
 	InputHandler* input;
 	TextureLibrary* library;
 	PhysicsDevice* physics;
+	GraphicsDevice* graphics;
 	SDL_Renderer* renderer;
 	unique_ptr<PowerUpFactory> power = make_unique<PowerUpFactory>(this);
 };

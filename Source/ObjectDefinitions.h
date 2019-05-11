@@ -2,7 +2,6 @@
 #define OBJECTDEFINITIONS_H
 
 #include "Definitions.h"
-class GameObject;
 
 enum objectTypes { SHIP, PLANETOID, ENEMY, POWERUP, BULLET, MISSILE, COMPONENT, NA };
 const map <string, int> objectTypesIndex{

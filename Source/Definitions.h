@@ -75,14 +75,16 @@ struct RGBA
 	eInt G{ 255 };
 	eInt B{ 255 };
 	eInt A{ 255 };
-	// Apply values with a hexcode (0xRRGGBBAA)
-	void set(Uint32 C) {
-		R = C / 0x1000000;
-		C %= 0x1000000;
-		G = C / 0x10000;
+
+	// Apply values with a hexcode 0xRRGGBB
+	void setRGB(eInt C) {
+		R = C / 0x10000;
 		C %= 0x10000;
-		B = C / 0x100;
-		A = C % 0x100;
+		G = C / 0x100;
+		B = C % 0x100;
+	}
+	void setAlpha(eInt alpha) {
+		A = alpha;
 	}
 };
 

@@ -4,6 +4,7 @@
 
 #include "Component.h"
 
+
 class GameObject;
 class TextureLibrary;
 class Texture;
@@ -27,6 +28,9 @@ public:
 	void draw();
 
 	void setTexture(string* path);
+	void setColor(eInt);
+	void setAlpha(eInt);
+
 	shared_ptr<Texture> getTexture();
 
 	string getPath();

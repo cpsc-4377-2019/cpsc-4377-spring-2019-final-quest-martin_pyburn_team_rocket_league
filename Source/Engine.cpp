@@ -7,6 +7,7 @@
 #include "RidgidBodyComponent.h"
 #include "SpriteComponent.h"
 #include "MiniMap.h"
+#include "SDL_ttf.h"
 
 Engine::Engine(string path)
 {
@@ -173,7 +174,8 @@ void Engine::draw()
 	if(drawMap) map->draw(planetoids, powerups, enemies, ship);
 
 	if(debug)physics->debugDraw();
-
+	
+	drawScore();
 	gDevice->present();
 }
 
@@ -234,6 +236,23 @@ bool Engine::run()
 	else physics->update(0.f);
 
 	return true;
+}
+
+void Engine::drawScore()
+{
+	TTF_Font* normalFont = TTF_OpenFont("./Assets/Fonts/PixelOperator8-Bold.ttf", 20);
+	SDL_Color textColor = { 225,225,225 };
+	int tempScore = score;
+	string scoreText = std::to_string(score);
+	SDL_Texture* textSheetTexture = SDL_CreateTextureFromSurface(gDevice.get()->getRenderer(), TTF_RenderText_Solid(normalFont, scoreText.c_str(), textColor));
+	int width = 0, height = 0;
+	int textX, textY;
+	SDL_QueryTexture(textSheetTexture, NULL, NULL, &width, &height);
+	textX = (windowHeight - width - 5);
+	textY = 20;
+	SDL_Rect renderQuad = { textX, textY, width, height };
+	//Render to screen
+	SDL_RenderCopy(gDevice.get()->getRenderer(), textSheetTexture, NULL, &renderQuad);
 }
 
 GameObject* Engine::getShip()

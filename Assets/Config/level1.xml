@@ -3,7 +3,7 @@
   <Settings>
     <Volume music="92" sound="92" />
   </Settings>
-  <!-- <Level bgMusic="ft1.wav">
+  <Level bgMusic="ft1.wav">
     <Ship type="Ship" name="Player1">
       <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
       <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
@@ -17,7 +17,7 @@
       <Sprite path="planetoid_30_1.png" />
       <FragBehavior />
     </Planetoid_1>
-  </Level> -->
+  </Level>
   <!-- <Level bgMusic="q30.mp3">
     <Ship type="Ship" name="Player1">
       <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
@@ -34,10 +34,10 @@
       <FragBehavior />
     </Planetoid_1>
   </Level> -->
-  <Level bgMusic="q31.mp3" >
+  <!-- <Level xbgMusic="q31.mp3" >
     <Ship type="Ship" name="Player1">
       <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
-      <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
+      <Sprite path="ship.png" sx="0" sy="0" sw="24" sh="20" />
       <MissileLauncher />
       <PeaShooter />
       <UserInput />
@@ -50,7 +50,15 @@
       <Integrity value="150" />
       <AutoFire radius="200" value="20" />
       <PeaShooter />
-      <ForceField value="20" />
+      <Drone />
+    </Enemy>
+    <Enemy type="Enemy" damage="50" aggro="Player1">
+      <Body density="5" layer="-2" x="500.0" y="690" a="5.0" cx="10" cy="10.5"/>
+      <Sprite color="00ff00" path="beetle.png" sx="0" sy="0" sw="20" sh="21" />
+      <SteerBehavior radius="100" value="100" />
+      <Integrity value="150" />
+      <AutoFire radius="200" value="20" />
+      <PeaShooter />
       <Drone />
     </Enemy>
     <Planetoid_1 type="Planetoid" external="planetoid_100_1.xml">
@@ -63,5 +71,5 @@
       <Sprite path="planetoid_120_1.png" />
       <FragBehavior />
     </Planetoid_2>
-  </Level>
+  </Level> -->
 </Game>

@@ -234,6 +234,8 @@ copy "$(ProjectDir)ThirdParty\SDL2\lib\x86\*.dll" "$(ProjectDir)"</Command>
     <ClCompile Include="Source\Expiration.cpp" />
     <ClCompile Include="Source\ForceFieldComponent.cpp" />
     <ClCompile Include="Source\Node.cpp" />
+    <ClCompile Include="Source\Particle.cpp" />
+    <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\PowerUpComponent.cpp" />
     <ClCompile Include="Source\MiniMap.cpp" />
     <ClCompile Include="Source\ObjectFactory.cpp" />
@@ -278,6 +280,8 @@ copy "$(ProjectDir)ThirdParty\SDL2\lib\x86\*.dll" "$(ProjectDir)"</Command>
     <ClInclude Include="Source\ForceFieldComponent.h" />
     <ClInclude Include="Source\Initializers.h" />
     <ClInclude Include="Source\Node.h" />
+    <ClInclude Include="Source\Particle.h" />
+    <ClInclude Include="Source\ParticleEmitter.h" />
     <ClInclude Include="Source\PowerUpComponent.h" />
     <ClInclude Include="Source\ObjectFactory.h" />
     <ClInclude Include="Source\GameObject.h" />

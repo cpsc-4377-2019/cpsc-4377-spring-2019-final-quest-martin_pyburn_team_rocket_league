@@ -9,7 +9,7 @@ MiniMap::MiniMap(GraphicsDevice* gDevice, string path)
 	this->gDevice = gDevice;
 	mini_ship = make_unique<Texture>(gDevice, path + "mm_ship.png");
 	mini_object = make_unique<Texture>(gDevice, path + "mm_object.png");
-	mini_ship->setRGBA(ship_color);
+	// mini_ship->setRGBA(ship_color);
 }
 
 MiniMap::~MiniMap()
@@ -63,7 +63,7 @@ void MiniMap::setPosition(float x, float y)
 }
 
 void MiniMap::drawMapItem(GameObject* obj, GameObject ship, RGBA color) {
-	mini_object->setRGBA(color);
+	// mini_object->setRGBA(color);
 
 	// acquire the required components
 	shared_ptr<RidgidBody> shipBody = ship.getComponent<RidgidBody>();

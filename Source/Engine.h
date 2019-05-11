@@ -25,8 +25,7 @@ public:
 	void draw();
 	bool run();
 
-
-	int getScore() { return score; };
+	void drawScore();
 
 	GameObject* getShip();
 
@@ -58,7 +57,7 @@ private:
 
 	// create factory
 	unique_ptr<ObjectFactory> factory =
-		make_unique<ObjectFactory>(this, gDevice->getRenderer(), input.get(), library.get(), physics.get());
+		make_unique<ObjectFactory>(this, gDevice->getRenderer(), input.get(), library.get(), physics.get(), gDevice.get());
 
 	string imgPath = "./Assets/Images/";
 	string xmlPath = "./Assets/Config/";
@@ -78,7 +77,7 @@ private:
 	bool lobby{ false };
 	bool debug{ false };
 	int level{ 0 };
-	int score;
+	int score = 0;
 
 	GameObject* ship;
 

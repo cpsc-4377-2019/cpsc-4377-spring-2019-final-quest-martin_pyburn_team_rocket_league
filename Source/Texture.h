@@ -13,9 +13,8 @@ public:
 	Texture(GraphicsDevice* gDevice, const std::string &path);
 	~Texture();
 
-	void draw(Vector2D& position, float angle = 0.0f, shared_ptr<Vector2D> centerPoint = nullptr, shared_ptr<SDL_Rect> clip = nullptr, int winW = 0, int winH = 0);
-	void setRGBA(RGBA);
-
+	void draw(Vector2D& position, float angle = 0.0f, shared_ptr<Vector2D> centerPoint = nullptr, shared_ptr<SDL_Rect> clip = nullptr, eInt winW = 0, eInt winH = 0, eInt red = 255, eInt green = 255, eInt blue = 255, eInt alpha = 255);
+	
 	int width{ 0 };
 	int height{ 0 };
 

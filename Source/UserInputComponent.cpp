@@ -1,17 +1,41 @@
 #include "UserInputComponent.h"
 #include "InputHandler.h"
+#include "GraphicsDevice.h"
 #include "GameObject.h"
 #include "RidgidBodyComponent.h"
 #include "PeaShooter.h"
 #include "MissileLauncher.h"
+#include "ParticleEmitter.h"
 
 UserInput::UserInput(std::shared_ptr<GameObject> owner) : Component( owner ) { }
 
 UserInput::~UserInput() { }
 
-void UserInput::initialize(InputHandler* input)
+void UserInput::initialize(GraphicsDevice* gDevice, InputHandler* input, string path)
 {
 	this->input = input;
+	this->path = path;
+	shared_ptr<ParticleParams> params = make_shared<ParticleParams>();
+	params->texture = "./Assets/Images/puff.png";
+	params->ppf = 1;
+	params->lifespan = -1;
+	params->parttime = 15;
+	params->rx = 0;
+	params->ry = 0;
+	params->rw = 5;
+	params->rh = 5;
+	params->cx = 2.5f;
+	params->cy = 2.5f;
+	params->angle = 180.f;
+	params->range = 1.f;
+	params->speed = 300.f;
+	params->color = { 234, 255, 0, 196 };
+	params->endcol = { 128, 96, 96, 16 };
+
+	shared_ptr<Emitter> jets = make_shared<Emitter>(getOwner());
+	jets->initialize(gDevice, params);
+	getOwner()->addComponent(dynamic_pointer_cast<Component>(jets));
+	jets->setActivation(false);
 }
 
 void UserInput::start() { }
@@ -31,7 +55,14 @@ std::shared_ptr<GameObject> UserInput::update()
 	shared_ptr<UserInput> input = getOwner()->getComponent<UserInput>();
 	if (input == nullptr) return nullptr;
 	if (input->inputStatus(InputHandler::Inputs::FORWARD)) {
+
 		eFloat angle = body->getAngle();
+
+		shared_ptr<Emitter> jets = getOwner()->getComponent<Emitter>();
+		jets->setPosition(body->getPosition());
+		jets->setActivation(angle + 180.f);
+		jets->setActivation(true);
+
 		eFloat imp = speed * body->density;
 		// move forward
 		Vector2D new_comp{ cosf(angle * DEG_TO_RAD), sinf(angle * DEG_TO_RAD) };

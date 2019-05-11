@@ -22,7 +22,9 @@ void Sprite::initialize(TextureLibrary* library, ObjectTemplate* temp)
 		(int)(*temp)[SPRITE]->sw, (int)(*temp)[SPRITE]->sh });
 	*center = { (*temp)[BODY]->cx, (*temp)[BODY]->cy };
 	if ((*temp)[SPRITE]->colorSet)
-		color.set((*temp)[SPRITE]->color);
+		color.setRGB((*temp)[SPRITE]->color);
+	if ((*temp)[SPRITE]->shell)
+		color.setAlpha((*temp)[SPRITE]->value);
 	if(path != "")setTexture(&path);
 	ready = true;
 }
@@ -40,7 +42,7 @@ void Sprite::draw()
 	if (ready) {
 		shared_ptr<RidgidBody> body = getOwner()->getComponent<RidgidBody>();
 		if (body != nullptr) {
-			texture->draw(body->getPosition(), body->getAngle(), center, rect);
+			texture->draw(body->getPosition(), body->getAngle(), center, rect, 0, 0, color.R, color.G, color.B, color.A);
 		}
 	}
 }
@@ -49,7 +51,16 @@ void Sprite::setTexture(string * path)
 {
 	this->path = *path;
 	texture = library->getArtAsset(library->imgPath + *path);
-	texture->setRGBA(color);
+}
+
+void Sprite::setColor(eInt C)
+{
+	color.setRGB(C);
+}
+
+void Sprite::setAlpha(eInt A)
+{
+	color.setAlpha(A);
 }
 
 shared_ptr<Texture> Sprite::getTexture()

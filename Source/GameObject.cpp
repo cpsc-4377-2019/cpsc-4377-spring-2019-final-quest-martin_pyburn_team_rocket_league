@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "SpriteComponent.h"
 #include "RidgidBodyComponent.h"
+#include "ParticleEmitter.h"
 #include "InputHandler.h"
 
 GameObject::GameObject()
@@ -66,6 +67,8 @@ void GameObject::draw()
 	if (initialized) {
 		shared_ptr<Sprite> sprite = getComponent<Sprite>();
 		if (sprite != nullptr) sprite->draw();
+		shared_ptr<Emitter> Emmett = getComponent<Emitter>();
+		if (Emmett != nullptr) Emmett->draw();
 	}
 }
 

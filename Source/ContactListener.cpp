@@ -73,6 +73,9 @@ void ContactListener::BulletHit(std::shared_ptr<GameObject> bullet, std::shared_
 	if (target->live && bullet->origin != nullptr && bullet->origin->type == objectTypes::SHIP) {
 		bullet->origin->aggro = target;
 	}
+	if (!target->live) {
+		bullet->origin->score += target->points;
+	}
 }
 
 void ContactListener::MissileHit(std::shared_ptr<GameObject> missile, std::shared_ptr<GameObject> target)
@@ -80,6 +83,9 @@ void ContactListener::MissileHit(std::shared_ptr<GameObject> missile, std::share
 	shared_ptr<Integrity> targeti = target->getComponent<Integrity>();
 	if (targeti != nullptr) targeti->damage(missile->damage);
 
+	if (!target->live) {
+		missile->origin->score += target->points;
+	}
 	// generate particles...
 
 	// kill the missile
@@ -106,6 +112,9 @@ void ContactListener::ShipCrash(std::shared_ptr<GameObject> ship, std::shared_pt
 			shipi->damage(sdamage);
 			float ndamage = ship->damage + sbody->getArea() / 500.f * mag;
 			if (noti != nullptr) noti->damage(ndamage);
+			if (!notship->live) {
+				ship->score += notship->points;
+			}
 		}
 	}
 }
@@ -114,6 +123,10 @@ void ContactListener::GetPowerUp(std::shared_ptr<GameObject> ship, std::shared_p
 {	// If a powerup hits a component, pass it up to the owner of the component
 	if(ship->type == objectTypes::COMPONENT)ship = ship->origin;
 	if (ship == nullptr) return;
+
+	// add score
+	ship->score += powerup->points;
+
 	powerup->live = false;
 	shared_ptr<Integrity> shipi = ship->getComponent<Integrity>();
 	if (shipi != nullptr)

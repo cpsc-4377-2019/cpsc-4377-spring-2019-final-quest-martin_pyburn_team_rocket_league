@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "TextureLibrary.h"
 #include "PhysicsDevice.h"
+#include "GraphicsDevice.h"
 #include "SpriteComponent.h"
 #include "RidgidBodyComponent.h"
 #include "ObjectListComponent.h"
@@ -28,12 +29,13 @@
 #include <string>
 
 
-ObjectFactory::ObjectFactory(Engine* engine, SDL_Renderer* renderer, InputHandler* input, TextureLibrary* library, PhysicsDevice* physics) {
+ObjectFactory::ObjectFactory(Engine* engine, SDL_Renderer* renderer, InputHandler* input, TextureLibrary* library, PhysicsDevice* physics, GraphicsDevice* graphics) {
 	this->engine = engine;
 	this->input = input;
 	this->renderer = renderer;
 	this->library = library;
 	this->physics = physics;
+	this->graphics = graphics;
 }
 
 ObjectFactory::~ObjectFactory() {
@@ -108,7 +110,7 @@ void ObjectFactory::applyTemplate(shared_ptr<ObjectTemplate> temp, shared_ptr<Ga
 	}
 	if ((*temp)[USERINPUT]->set) {
 		shared_ptr<UserInput> newUserInput = make_shared<UserInput>(target);
-		newUserInput->initialize(input);
+		newUserInput->initialize(graphics, input, library->imgPath);
 		target->addComponent(dynamic_pointer_cast<Component>(newUserInput));
 	}
 	if (target->type != objectTypes::POWERUP) {
@@ -222,7 +224,7 @@ void ObjectFactory::applyXMLToTemplate(XMLElement* ObjectXML, ObjectTemplate* te
 			// get color
 			const char* colorName;
 			if (comp->QueryStringAttribute("color", &colorName) == XML_SUCCESS) {
-				newParams->color = stoul(colorName, nullptr, 16) * 256 + 255;
+				newParams->color = stoul(colorName, nullptr, 16);
 				newParams->colorSet = true;
 			}
 			// parse points from Body element
