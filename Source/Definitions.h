@@ -92,6 +92,4 @@ struct RGBA
 const eFloat PI = 3.14159f;
 const eFloat DEG_TO_RAD = PI / 180.0f;
 const eFloat RAD_TO_DEG = 180.0f / PI;
-const int windowWidth = 800;
-const int windowHeight = 800;
 #endif

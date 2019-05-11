@@ -91,6 +91,7 @@ std::shared_ptr<GameObject> PowerUpFactory::mineral()
 	std::shared_ptr<GameObject> obj = make_shared<GameObject>();
 	obj->type = objectTypes::POWERUP;
 	obj->damage = -10.f;
+	obj->points = 200;
 
 	// ADD TO SCORE
 

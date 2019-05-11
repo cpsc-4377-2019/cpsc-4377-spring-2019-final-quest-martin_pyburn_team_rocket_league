@@ -24,6 +24,8 @@ Engine::Engine(string path)
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_StopTextInput();
 
+	TTF_Init();
+
 	// establish boundaries
 	int w = gDevice->getWidth();
 	int h = gDevice->getHeight();
@@ -121,6 +123,12 @@ void Engine::update()
 			if (objects[it]->type == objectTypes::PLANETOID || objects[it]->type == objectTypes::ENEMY)
 				win = false;
 			std::shared_ptr<GameObject> newObject = objects[it]->update();
+			if (objects[it]->type == objectTypes::SHIP && objects[it]->score > 0)
+			{
+				score += objects[it]->score;
+				objects[it]->score = 0;
+				cout << score << endl;
+			}
 			if (newObject != nullptr) {
 				nursery.push_back(newObject);
 			}
@@ -240,16 +248,18 @@ bool Engine::run()
 
 void Engine::drawScore()
 {
-	TTF_Font* normalFont = TTF_OpenFont("./Assets/Fonts/PixelOperator8-Bold.ttf", 20);
-	SDL_Color textColor = { 225,225,225 };
+	TTF_Font* normalFont = TTF_OpenFont((fontPath + "PixelOperator8-Bold.ttf").c_str(), 20);
+	if(normalFont == nullptr) printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
+	SDL_Color textColor = { 225, 225, 225 };
 	int tempScore = score;
 	string scoreText = std::to_string(score);
 	SDL_Texture* textSheetTexture = SDL_CreateTextureFromSurface(gDevice.get()->getRenderer(), TTF_RenderText_Solid(normalFont, scoreText.c_str(), textColor));
-	int width = 0, height = 0;
+	int width, height;
 	int textX, textY;
 	SDL_QueryTexture(textSheetTexture, NULL, NULL, &width, &height);
-	textX = (windowHeight - width - 5);
-	textY = 20;
+	cout << width << " " << height << endl;
+	textX = (gDevice->getWidth() - width - 5);
+	textY = height + 5;
 	SDL_Rect renderQuad = { textX, textY, width, height };
 	//Render to screen
 	SDL_RenderCopy(gDevice.get()->getRenderer(), textSheetTexture, NULL, &renderQuad);
