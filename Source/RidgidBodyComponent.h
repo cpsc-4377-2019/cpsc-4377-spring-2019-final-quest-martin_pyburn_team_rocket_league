@@ -2,6 +2,7 @@
 #define RIDGIDBODY_H
 
 #include "Component.h"
+#include "Initializers.h"
 
 class GameObject;
 class GameLibrary;
@@ -31,6 +32,8 @@ public:
 	float getRelativeAngle(Vector2D);
 	float getDirection(Vector2D);
 	float getDistance(Vector2D);
+
+	bool setType(BodyType);
 
 	bool setVelocity(Vector2D);
 	bool setTransform(Vector2D, eFloat);

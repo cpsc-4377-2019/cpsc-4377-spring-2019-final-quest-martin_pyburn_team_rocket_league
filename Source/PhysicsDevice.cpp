@@ -37,6 +37,31 @@ bool PhysicsDevice::update(float dt)
 	return true;
 }
 
+bool PhysicsDevice::setBodyType(const RidgidBody* object, BodyType type)
+{
+	b2Body* body = FindBody(object);
+	switch (type)
+	{
+	case BodyType::Static:
+		body->SetType(b2BodyType::b2_staticBody);
+		break;
+	case BodyType::Kinematic:
+		body->SetType(b2BodyType::b2_kinematicBody);
+		break;
+	case BodyType::Dynamic:
+		body->SetType(b2BodyType::b2_dynamicBody);
+		break;
+	default: break;
+	}
+	return false;
+}
+
+bool PhysicsDevice::setGravity(Vector2D gravity)
+{
+	world->SetGravity({RW2PW(gravity.x), RW2PW(gravity.y)});
+	return false;
+}
+
 //**************************************
 //Moves body to a set location & angle
 bool PhysicsDevice::setTransform(const RidgidBody* object, Vector2D position, eFloat angle)

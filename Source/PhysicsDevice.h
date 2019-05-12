@@ -24,6 +24,8 @@ public:
 	bool createBoundary(RidgidBody* object, int x, int y, int w, int h);
 	bool removeObject(RidgidBody* object);
 
+	bool setBodyType(const RidgidBody*, BodyType);
+	bool setGravity(Vector2D gravity);
 	bool setTransform(const RidgidBody* object, Vector2D position, eFloat angle);
 	bool setLinearVelocity(const RidgidBody* object, Vector2D linearVelociy);
 	bool setAngularVelocity(const RidgidBody* object, eFloat angularVelocity);

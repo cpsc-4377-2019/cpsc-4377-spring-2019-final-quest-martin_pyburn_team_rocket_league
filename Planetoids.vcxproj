@@ -232,6 +232,8 @@ copy "$(ProjectDir)ThirdParty\SDL2\lib\x86\*.dll" "$(ProjectDir)"</Command>
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Evade.cpp" />
     <ClCompile Include="Source\Expiration.cpp" />
+    <ClCompile Include="Source\Firework.cpp" />
+    <ClCompile Include="Source\FireworksLauncher.cpp" />
     <ClCompile Include="Source\ForceFieldComponent.cpp" />
     <ClCompile Include="Source\Node.cpp" />
     <ClCompile Include="Source\Particle.cpp" />
@@ -277,6 +279,8 @@ copy "$(ProjectDir)ThirdParty\SDL2\lib\x86\*.dll" "$(ProjectDir)"</Command>
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\Evade.h" />
     <ClInclude Include="Source\Expiration.h" />
+    <ClInclude Include="Source\Firework.h" />
+    <ClInclude Include="Source\FireworksLauncher.h" />
     <ClInclude Include="Source\ForceFieldComponent.h" />
     <ClInclude Include="Source\Initializers.h" />
     <ClInclude Include="Source\Node.h" />

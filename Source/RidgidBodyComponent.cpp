@@ -137,6 +137,10 @@ float RidgidBody::getDistance(Vector2D point)
 	return sqrtf(powf(pos.x - point.x, 2.f) + powf(pos.y - point.y, 2.f));
 }
 
+bool RidgidBody::setType(BodyType type) {
+	return physics->setBodyType(this, type);
+}
+
 bool RidgidBody::setVelocity(Vector2D vel)
 {
 	return physics->setLinearVelocity(this, vel);

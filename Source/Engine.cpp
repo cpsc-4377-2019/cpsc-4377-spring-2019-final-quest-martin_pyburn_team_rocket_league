@@ -6,7 +6,7 @@
 #include "PhysicsDevice.h"
 #include "RidgidBodyComponent.h"
 #include "SpriteComponent.h"
-#include "ParticleEmitter.h"
+#include "FireworksLauncher.h"
 #include "MiniMap.h"
 #include "SDL_ttf.h"
 
@@ -86,35 +86,36 @@ void Engine::loadLevel(string path)
 		sound->setAsBackground(string("win.wav"));
 		SDL_SetRenderDrawColor(gDevice->getRenderer(), 0, 0, 0, 255);
 		int center = gDevice->getWidth() / 2;
-		queueText({ "CONGRATULATIONS", center, 50, 45, 255, 0, 255, CENTER });
+		queueText({ "CONGRATULATIONS", center, 50, 45, 255, 32, 32, CENTER });
 		queueText({ "YOU WIN!!", center, 150, 35, 0, 192, 255, CENTER });
 		queueText({ "Final score: " + std::to_string(final_score), center, 200, 20, 255, 255, 255, CENTER });
 		queueText({ "Team Rocket Spring 2019", center, 280, 20, 255, 255, 255, CENTER });
 		queueText({ "Finis Martin", center, 330, 20, 128, 128, 255, CENTER });
 		queueText({ "Josh Pyburn", center, 360, 20, 128, 128, 255, CENTER });
-		queueText({ "Thanks for playing!", center, 450, 30, 196, 255, 64, CENTER });
-		shared_ptr<GameObject> fireworks = make_shared<GameObject>();
-		fireworks->type = objectTypes::COMPONENT;
-		shared_ptr<Emitter> emitter = make_shared<Emitter>(fireworks);
-		shared_ptr<ParticleParams> params = make_shared<ParticleParams>();
-		params->x = center;
-		params->y = 200;
-		params->texture = imgPath + "puff.png";
-		params->cx = params->cy = 2.5f;
-		params->rx = params->ry = 0;
-		params->rw = params->rh = 5;
-		params->lifespan = -1;
-		params->parttime = 20;
-		params->ppf = 50;
-		params->range = 360.f;
-		params->speed = 20.f;
-		params->gravity = { 0.f, 1.5f };
-		params->color.setRGB(0xaaff60);
-		params->endcol.setRGB(0xaa3030);
-		emitter->initialize(gDevice.get(), params);
-		fireworks->addComponent(emitter);
-		fireworks->initialize();
-		objects.push_back(fireworks);
+		queueText({ "Thanks for playing!", center, 450, 30, 255, 196, 64, CENTER });
+		
+		// fireworks show
+		for (int l = 0; l < 8; l++) {
+			eFloat angle = -PI / 2;
+			angle += PI / 24 * (l - 3);
+			shared_ptr<GameObject> gob = make_shared<GameObject>();
+			shared_ptr<ObjectTemplate> bt = make_shared<ObjectTemplate>();
+			ObjectParams* bp = (*bt)[BODY].get();
+			bp->set = true;
+			bp->x = (eFloat)center + cosf(angle) * 200.f;
+			bp->y = 850.f + sinf(angle) * 200.f;
+			factory->applyTemplate(bt, gob);
+			shared_ptr<RidgidBody> body = gob->getComponent<RidgidBody>();
+			body->setAngle(angle * RAD_TO_DEG);
+			body->setType(BodyType::Static);
+			shared_ptr<FWLauncher> launcher = make_shared<FWLauncher>(gob);
+			launcher->initialize(factory.get(), gDevice.get());
+			gob->addComponent(launcher);
+			gob->initialize();
+			gob->type = objectTypes::COMPONENT;
+			objects.push_back(gob);
+		}
+		
 		return;
 	}
 
@@ -197,6 +198,14 @@ void Engine::update()
 
 void Engine::draw()
 {
+	gDevice->begin();
+
+	if (gameover) {
+		shared_ptr<Texture> background = library->getArtAsset(imgPath + "background.png");
+		Vector2D tl = { 0.f, 0.f };
+		background->draw(tl);
+	}
+
 	vector<GameObject*> planetoids	= getPlanetoids();
 	vector<GameObject*> powerups	= getPowerUps();
 	vector<GameObject*> enemies		= getEnemies();
@@ -204,7 +213,6 @@ void Engine::draw()
 	vector<GameObject*> components	= getComponents();
 	GameObject* ship				= getShip();
 
-	gDevice->begin();
 	for (Uint32 it = 0; it < planetoids.size(); it++)
 		planetoids[it]->draw();
 	for (Uint32 it = 0; it < powerups.size(); it++)
@@ -307,8 +315,10 @@ void Engine::clearText()
 void Engine::drawText(textOutput output)
 {
 	TTF_Font* normalFont = TTF_OpenFont((fontPath + "PixelOperator8-Bold.ttf").c_str(), output.size);
-	SDL_Color textColor = { output.red, output.green, output.blue };
-	SDL_Texture* textSheetTexture = SDL_CreateTextureFromSurface(gDevice.get()->getRenderer(), TTF_RenderText_Solid(normalFont, output.text.c_str(), textColor));
+	SDL_Color textColor = { (Uint8)output.red, (Uint8)output.green, (Uint8)output.blue };
+	SDL_Surface* textSurface = TTF_RenderText_Solid(normalFont, output.text.c_str(), textColor);
+	TTF_CloseFont(normalFont);
+	SDL_Texture* textSheetTexture = SDL_CreateTextureFromSurface(gDevice.get()->getRenderer(), textSurface);
 	int width, height;
 	SDL_QueryTexture(textSheetTexture, NULL, NULL, &width, &height);
 	int rx;
@@ -320,6 +330,7 @@ void Engine::drawText(textOutput output)
 	SDL_Rect renderQuad = { rx, output.y, width, height };
 	//Render to screen
 	SDL_RenderCopy(gDevice.get()->getRenderer(), textSheetTexture, NULL, &renderQuad);
+	SDL_FreeSurface(textSurface);
 }
 
 void Engine::drawScore()
@@ -349,7 +360,7 @@ vector<GameObject*> Engine::getPlanetoids()
 	unique_ptr<vector<GameObject*>> list = make_unique<vector<GameObject*>>();
 	for (Uint32 it = 0; it < objects.size(); it++)
 		if (objects[it]->type == objectTypes::PLANETOID)
-			list->push_back( objects[it].get() );
+			list->push_back( objects[it].get());
 	return *list;
 }
 
@@ -358,7 +369,7 @@ vector<GameObject*> Engine::getEnemies()
 	unique_ptr<vector<GameObject*>> list = make_unique<vector<GameObject*>>();
 	for (Uint32 it = 0; it < objects.size(); it++)
 		if (objects[it]->type == objectTypes::ENEMY)
-			list->push_back( objects[it].get() );
+			list->push_back( objects[it].get());
 	return *list;
 }
 

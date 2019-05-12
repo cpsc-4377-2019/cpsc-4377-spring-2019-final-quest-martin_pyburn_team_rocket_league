@@ -18,7 +18,37 @@
       <FragBehavior />
     </Planetoid_1>
   </Level>
-  <!-- <Level bgMusic="q30.mp3">
+  <Level bgMusic="q31.mp3">
+    <Ship type="Ship" name="Player1">
+      <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
+      <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
+      <MissileLauncher />
+      <PeaShooter />
+      <UserInput />
+      <Integrity value="1000" />
+    </Ship>
+    <Planetoid_1 type="Planetoid" external="planetoid_30_1.xml">
+      <Body x ="300" y="600" a="1.5708" va="25" vx="0.2" vy="-1" />
+      <Sprite path="planetoid_30_1.png" />
+      <FragBehavior />
+    </Planetoid_1>
+  </Level>
+  <Level bgMusic="ft1.wav">
+    <Ship type="Ship" name="Player1">
+      <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
+      <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
+      <MissileLauncher />
+      <PeaShooter />
+      <UserInput />
+      <Integrity value="1000" />
+    </Ship>
+    <Planetoid_1 type="Planetoid" external="planetoid_30_1.xml">
+      <Body x ="300" y="600" a="1.5708" va="25" vx="0.2" vy="-1" />
+      <Sprite path="planetoid_30_1.png" />
+      <FragBehavior />
+    </Planetoid_1>
+  </Level>
+  <Level bgMusic="q30.mp3">
     <Ship type="Ship" name="Player1">
       <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
       <Sprite path="ship.png" color="0080ff" sx="0" sy="0" sw="24" sh="20" />
@@ -33,8 +63,8 @@
       <Sprite path="planetoid_100_1.png" />
       <FragBehavior />
     </Planetoid_1>
-  </Level> -->
-  <!-- <Level xbgMusic="q31.mp3" >
+  </Level>
+  <Level xbgMusic="q31.mp3" >
     <Ship type="Ship" name="Player1">
       <Body density="5" layer="-1" x="388" y="390" a="0" vx="0" vy="0" va="0" cx="10" cy="10" points="-10 8 -10 -8 12 0" />
       <Sprite path="ship.png" sx="0" sy="0" sw="24" sh="20" />
@@ -71,5 +101,5 @@
       <Sprite path="planetoid_120_1.png" />
       <FragBehavior />
     </Planetoid_2>
-  </Level> -->
+  </Level>
 </Game>

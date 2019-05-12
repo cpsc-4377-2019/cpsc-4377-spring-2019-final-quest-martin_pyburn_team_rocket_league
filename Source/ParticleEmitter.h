@@ -53,7 +53,12 @@ public:
 
 	void setPosition(Vector2D);
 	void setAngle(eFloat);
+	void setRange(eFloat);
 	void setSpeed(eFloat);
+	void setLifespan(int);
+	void setParttime(int);
+	void setColors(RGBA, RGBA);
+	void setPPF(int);
 
 private:
 

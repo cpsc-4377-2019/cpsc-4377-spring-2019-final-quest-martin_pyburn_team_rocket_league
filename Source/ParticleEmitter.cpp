@@ -70,11 +70,11 @@ std::shared_ptr<GameObject> Emitter::update()
 			
 			particle->rect = rect;
 			particle->center = center;
-
 			eFloat speed = randf(speedmin, params->speed);
 			eFloat angle = randf(params->angle - params->range, params->angle + params->range);
 			
 			particle->position = Vector2D{ params->x, params->y };
+
 			particle->velocity = Vector2D{ cosf(angle * DEG_TO_RAD) * speed, sinf(angle * DEG_TO_RAD) * speed };
 			particle->gravity = params->gravity;
 			particle->angle = randf(0.f, 360.f);
@@ -118,9 +118,34 @@ void Emitter::setAngle(eFloat angle)
 	params->angle = angle;
 }
 
+void Emitter::setRange(eFloat range)
+{
+	params->range = range;
+}
+
 void Emitter::setSpeed(eFloat speed)
 {
 	params->speed = speed;
+}
+
+void Emitter::setLifespan(int life)
+{
+	params->lifespan = life;
+}
+
+void Emitter::setParttime(int time) {
+	params->parttime = time;
+}
+
+void Emitter::setColors(RGBA A, RGBA B)
+{
+	params->color = A;
+	params->endcol = B;
+}
+
+void Emitter::setPPF(int ppf)
+{
+	params->ppf = ppf;
 }
 
 eFloat Emitter::randf(eFloat m, eFloat M)
