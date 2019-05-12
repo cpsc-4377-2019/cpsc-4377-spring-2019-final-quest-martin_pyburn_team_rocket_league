@@ -116,17 +116,17 @@ void ObjectFactory::applyTemplate(shared_ptr<ObjectTemplate> temp, shared_ptr<Ga
 	if (target->type != objectTypes::POWERUP) {
 		if ((*temp)[EXPIRE]->set) {
 			shared_ptr<Expire> newExpire = make_shared<Expire>(target);
-			newExpire->initialize(temp.get());
+			newExpire->initialize(this, graphics, temp.get());
 			target->addComponent(dynamic_pointer_cast<Component>(newExpire));
 		}
 		if ((*temp)[INTEGRITY]->set) {
 			shared_ptr<Integrity> newIntegrity = make_shared<Integrity>(target);
-			newIntegrity->initialize((*temp)[INTEGRITY].get());
+			newIntegrity->initialize(this, graphics, (*temp)[INTEGRITY].get());
 			target->addComponent(dynamic_pointer_cast<Component>(newIntegrity));
 		}
 		if ((*temp)[FRAGBEHAVIOR]->set) {
 			shared_ptr<Frag> newFrag = make_shared<Frag>(target);
-			newFrag->initialize(this);
+			newFrag->initialize(graphics, this);
 			target->addComponent(dynamic_pointer_cast<Component>(newFrag));
 		}
 		if ((*temp)[PEASHOOTER]->set) {

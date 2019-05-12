@@ -29,7 +29,7 @@ struct ParticleParams {
 	eFloat cy{ 0.f };
 	eFloat angle{ 0.f };
 	eFloat rotation{ 0.f };
-	eFloat range{ 0.f };
+	eFloat range{ 360.f };
 	eFloat speed{ 0.f };
 	RGBA color;
 	RGBA endcol;

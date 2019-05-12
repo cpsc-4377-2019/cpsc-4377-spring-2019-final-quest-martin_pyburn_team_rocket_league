@@ -87,10 +87,9 @@ void ContactListener::MissileHit(std::shared_ptr<GameObject> missile, std::share
 	if (targeti->integrity <= 0) {
 		missile->origin->score += target->points;
 	}
-	// generate particles...
 
 	// kill the missile
-	missile->live = false;
+	missile->distress = true;
 }
 
 void ContactListener::ShipCrash(std::shared_ptr<GameObject> ship, std::shared_ptr<GameObject> notship)

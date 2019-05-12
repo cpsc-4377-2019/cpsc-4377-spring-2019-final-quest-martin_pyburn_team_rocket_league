@@ -4,6 +4,7 @@
 #include "IntegrityComponent.h"
 #include "ObjectListComponent.h"
 #include "ObjectFactory.h"
+#include "GraphicsDevice.h"
 #include <random>
 #include <functional>
 
@@ -13,8 +14,9 @@ Frag::Frag(std::shared_ptr<GameObject> owner) : Component( owner )
 
 Frag::~Frag() { }
 
-void Frag::initialize(ObjectFactory* factory) {
+void Frag::initialize(GraphicsDevice* gDevice, ObjectFactory* factory) {
 	this->factory = factory;
+	this->gDevice = gDevice;
 	shared_ptr<Integrity> newIntegrity = make_shared<Integrity>(getOwner());
 	ObjectParams params;
 
@@ -24,7 +26,7 @@ void Frag::initialize(ObjectFactory* factory) {
 	bool shell = parentBody->shell;
 	params.value = area * layer / 5 + (shell ? 100 : 0);
 	getOwner()->points = params.value;
-	newIntegrity->initialize(&params);
+	newIntegrity->initialize(factory, gDevice, &params);
 	getOwner()->addComponent(dynamic_pointer_cast<Component>(newIntegrity));
 }
 
@@ -59,7 +61,7 @@ std::shared_ptr<GameObject> Frag::update()
 
 				// attach frag behavior
 				shared_ptr<Frag> newFrag = make_shared<Frag>(children->list[c]);
-				newFrag->initialize(factory);
+				newFrag->initialize(gDevice, factory);
 				child->addComponent(dynamic_pointer_cast<Component>(newFrag));
 
 				// position relative to parent

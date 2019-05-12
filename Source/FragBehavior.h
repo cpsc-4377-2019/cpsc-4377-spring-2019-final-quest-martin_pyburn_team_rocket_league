@@ -6,18 +6,20 @@
 
 #include "SDL.h"
 
+class GraphicsDevice;
 class ObjectFactory;
 
 class Frag : public Component {
 public:
 	Frag(std::shared_ptr<GameObject>);
 	~Frag();
-	void initialize(ObjectFactory* factory);
+	void initialize(GraphicsDevice* gDevice, ObjectFactory* factory);
 	void start();
 	std::shared_ptr<GameObject> update();
 	void finish();
 
 private:
+	GraphicsDevice* gDevice;
 	ObjectFactory* factory;
 };
 

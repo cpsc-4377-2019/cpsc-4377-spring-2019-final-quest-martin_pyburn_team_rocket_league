@@ -4,6 +4,8 @@
 #include "Component.h"
 
 class ObjectTemplate;
+class ObjectFactory;
+class GraphicsDevice;
 
 class Expire : public Component {
 public:
@@ -12,13 +14,16 @@ public:
 
 	void start();
 	void finish();
-	void initialize(ObjectTemplate*);
+	void initialize(ObjectFactory* factory, GraphicsDevice* gDevice, ObjectTemplate*);
 	std::shared_ptr<GameObject> update();
 
 private:
+	GraphicsDevice* gDevice;
+	ObjectFactory* factory;
 	Uint32 the_end;
 	bool counting{ false };
-	void RIP();
+	bool dead{ false };
+	std::shared_ptr<GameObject> spawnEmitter();
 };
 
 #endif // !EXPIRATION_H
