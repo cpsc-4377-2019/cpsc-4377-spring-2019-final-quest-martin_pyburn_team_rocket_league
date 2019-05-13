@@ -12,9 +12,9 @@ Sprite::Sprite(std::shared_ptr<GameObject> owner) : Component(owner)
 
 Sprite::~Sprite() {}
 
-void Sprite::initialize(TextureLibrary* library, ObjectTemplate* temp)
+void Sprite::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->library = library;
+	this->library = resources->library.get();
 	//Load the Art Asset
 	path = (*temp)[SPRITE]->path;
 	rect = make_shared<SDL_Rect>(SDL_Rect{

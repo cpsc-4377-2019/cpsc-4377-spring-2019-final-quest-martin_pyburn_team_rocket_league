@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "Initializers.h"
+#include "Definitions.h"
 
 class GameObject;
 class GameLibrary;
@@ -16,7 +17,7 @@ class RidgidBody : public Component
 public:
 	RidgidBody(std::shared_ptr<GameObject>);
 	~RidgidBody();
-	void initialize(SDL_Renderer* renderer, PhysicsDevice* physics, ObjectTemplate* temp);
+	void initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp);
 
 	void start();
 	std::shared_ptr<GameObject> update();

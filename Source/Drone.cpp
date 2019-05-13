@@ -41,12 +41,10 @@ Drone::~Drone()
 {
 }
 
-bool Drone::initialize(ObjectFactory * factory, ObjectTemplate* temp)
+void Drone::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->factory = factory;
+	this->factory = resources->factory.get();
 	if (!(*temp)[DRONE]->layer) master = true;
-
-	return false;
 }
 
 void Drone::start() {}

@@ -5,6 +5,7 @@
 #include "ObjectListComponent.h"
 #include "ObjectFactory.h"
 #include "GraphicsDevice.h"
+#include "SoundDevice.h"
 #include <random>
 #include <functional>
 
@@ -14,19 +15,19 @@ Frag::Frag(std::shared_ptr<GameObject> owner) : Component( owner )
 
 Frag::~Frag() { }
 
-void Frag::initialize(GraphicsDevice* gDevice, ObjectFactory* factory) {
-	this->factory = factory;
-	this->gDevice = gDevice;
+void Frag::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp) {
+	this->resources = resources;
 	shared_ptr<Integrity> newIntegrity = make_shared<Integrity>(getOwner());
-	ObjectParams params;
-
+	shared_ptr<ObjectTemplate> t = make_shared<ObjectTemplate>();
+	ObjectParams* params = (*t)[INTEGRITY].get();
+	params->set = true;
 	std::shared_ptr<RidgidBody> parentBody = getOwner()->getComponent<RidgidBody>();
 	int area = parentBody->getArea();
 	int layer = parentBody->layer;
 	bool shell = parentBody->shell;
-	params.value = area * layer / 5 + (shell ? 100 : 0);
-	getOwner()->points = params.value;
-	newIntegrity->initialize(factory, gDevice, &params);
+	params->value = area * layer / 5 + (shell ? 100 : 0);
+	getOwner()->points = params->value;
+	newIntegrity->initialize(resources, t.get());
 	getOwner()->addComponent(dynamic_pointer_cast<Component>(newIntegrity));
 }
 
@@ -35,6 +36,7 @@ void Frag::start() { }
 std::shared_ptr<GameObject> Frag::update()
 {
 	if ( !getOwner()->live ) {
+		resources->sounds->playSound(string("explosion_02.ogg"), 0, -1);
 		std::shared_ptr<ObjectList> children	= getOwner()->getComponent<ObjectList>();
 		std::shared_ptr<RidgidBody> parentBody	= getOwner()->getComponent<RidgidBody>();
 		std::shared_ptr<Sprite> parentSprite	= getOwner()->getComponent<Sprite>();
@@ -61,7 +63,7 @@ std::shared_ptr<GameObject> Frag::update()
 
 				// attach frag behavior
 				shared_ptr<Frag> newFrag = make_shared<Frag>(children->list[c]);
-				newFrag->initialize(gDevice, factory);
+				newFrag->initialize(resources, nullptr);
 				child->addComponent(dynamic_pointer_cast<Component>(newFrag));
 
 				// position relative to parent
@@ -104,7 +106,7 @@ std::shared_ptr<GameObject> Frag::update()
 			}
 		}
 		else if (children == nullptr) {
-			shared_ptr<GameObject> power = factory->getPower();
+			shared_ptr<GameObject> power = resources->factory->getPower();
 			if (power != nullptr) {
 				shared_ptr<RidgidBody> obod = getOwner()->getComponent<RidgidBody>();
 				shared_ptr<RidgidBody> body = power->getComponent<RidgidBody>();

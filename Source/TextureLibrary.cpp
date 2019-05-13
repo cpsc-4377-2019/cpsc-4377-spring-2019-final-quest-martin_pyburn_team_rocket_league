@@ -1,18 +1,19 @@
 #include "TextureLibrary.h"
 #include "GraphicsDevice.h"
-#include"Texture.h"
+#include "Texture.h"
+#include "Definitions.h"
 
-TextureLibrary::TextureLibrary(GraphicsDevice* gDevice)
+TextureLibrary::TextureLibrary(shared_ptr<resource_map> resources)
 {
-	this->gDevice = gDevice;
-	this->renderer = gDevice->getRenderer();
+	this->resources = resources;
 }
 
 shared_ptr<Texture> TextureLibrary::getArtAsset(std::string name)
 {
+	name = resources->imgPath + name;
 	auto it = artLibrary.find(name);
 	if (it == artLibrary.end()) {
-		artLibrary.insert_or_assign(name, make_shared<Texture>(gDevice, name));
+		artLibrary.insert_or_assign(name, make_shared<Texture>(resources->graphics.get(), name));
 
 		if (!artLibrary.find(name)->second->initialized)
 		{

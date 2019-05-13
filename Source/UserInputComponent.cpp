@@ -11,12 +11,11 @@ UserInput::UserInput(std::shared_ptr<GameObject> owner) : Component( owner ) { }
 
 UserInput::~UserInput() { }
 
-void UserInput::initialize(GraphicsDevice* gDevice, InputHandler* input, string path)
+void UserInput::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->input = input;
-	this->path = path;
+	this->input = resources->inputs.get();
 	shared_ptr<ParticleParams> params = make_shared<ParticleParams>();
-	params->texture = "./Assets/Images/puff.png";
+	params->texture = resources->imgPath + "puff.png";
 	params->ppf = 1;
 	params->lifespan = -1;
 	params->parttime = 25;
@@ -33,7 +32,7 @@ void UserInput::initialize(GraphicsDevice* gDevice, InputHandler* input, string 
 	params->endcol = { 128, 96, 96, 16 };
 
 	shared_ptr<Emitter> jets = make_shared<Emitter>(getOwner());
-	jets->initialize(gDevice, params);
+	jets->initialize(resources->graphics.get(), params);
 	getOwner()->addComponent(dynamic_pointer_cast<Component>(jets));
 	jets->setActivation(false);
 }

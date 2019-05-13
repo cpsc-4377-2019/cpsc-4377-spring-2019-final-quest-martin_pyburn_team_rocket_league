@@ -19,7 +19,7 @@ class Sprite : public Component
 public:
 	Sprite(std::shared_ptr<GameObject>);
 	~Sprite();
-	void initialize(TextureLibrary* library, ObjectTemplate* temp);
+	void initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp);
 
 	void start();
 	std::shared_ptr<GameObject> update();

@@ -13,7 +13,7 @@ public:
 
 	Chase(std::shared_ptr<GameObject>);
 	~Chase();
-	void initialize(ObjectTemplate* temp);
+	void initialize(std::shared_ptr<resource_map> resources, ObjectTemplate* temp);
 	void start();
 	std::shared_ptr<GameObject> update();
 	void finish();

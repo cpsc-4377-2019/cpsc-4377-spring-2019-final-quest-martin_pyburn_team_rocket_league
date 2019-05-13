@@ -14,12 +14,10 @@ FWLauncher::~FWLauncher()
 {
 }
 
-bool FWLauncher::initialize(ObjectFactory* factory, GraphicsDevice* gDevice)
+void FWLauncher::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->gDevice = gDevice;
-	this->factory = factory;
+	this->resources = resources;
 	delay = rand() % 10;
-	return false;
 }
 
 void FWLauncher::start()
@@ -47,9 +45,9 @@ std::shared_ptr<GameObject> FWLauncher::update()
 		
 		shared_ptr<GameObject> fw = make_shared<GameObject>();
 		fw->type = objectTypes::COMPONENT;
-		factory->applyTemplate(ot, fw);
+		resources->factory->applyTemplate(ot, fw);
 		shared_ptr<Firework> fwc = make_shared<Firework>(fw);
-		fwc->initialize(gDevice);
+		fwc->initialize(resources);
 		fw->addComponent(fwc);
 		fw->initialize();
 

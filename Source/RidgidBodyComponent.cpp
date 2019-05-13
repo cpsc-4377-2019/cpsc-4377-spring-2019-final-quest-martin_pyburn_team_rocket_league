@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "ObjectDefinitions.h"
 #include "RidgidBodyComponent.h"
+#include "GraphicsDevice.h"
 #include "PhysicsDevice.h"
 #include <string>
 
@@ -18,10 +19,10 @@ RidgidBody::~RidgidBody() {
 }
 
 
-void RidgidBody::initialize(SDL_Renderer* renderer, PhysicsDevice* physics, ObjectTemplate* temp)
+void RidgidBody::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->physics = physics;
-	this->renderer = renderer;
+	this->physics = resources->physics.get();
+	this->renderer = resources->graphics->getRenderer();
 
 	Vector2D position;
 	position.x = (*temp)[BODY]->x;

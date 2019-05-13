@@ -1,11 +1,11 @@
 #include "GraphicsDevice.h"
 
 
-GraphicsDevice::GraphicsDevice()
+GraphicsDevice::GraphicsDevice(int w, int h)
 {
 	window = nullptr;
 
-	initGraphicsDevice();
+	initGraphicsDevice(w, h);
 
 }
 
@@ -67,8 +67,6 @@ void GraphicsDevice::initGraphicsDevice(int width, int height)
 		exit(1);
 	}
 
-	//set the background color (default)
-	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 }
 
 void GraphicsDevice::cleanUp() {

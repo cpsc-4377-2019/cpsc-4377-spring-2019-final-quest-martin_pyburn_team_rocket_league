@@ -17,16 +17,19 @@ class TextureLibrary;
 struct SDL_Renderer;
 class PhysicsDevice;
 class GraphicsDevice;
+class SoundDevice;
 class PowerUpFactory;
+class Component;
 
 class ObjectFactory {
 public:
-	ObjectFactory( Engine* engine, SDL_Renderer*, InputHandler*, TextureLibrary*, PhysicsDevice*, GraphicsDevice*);
+	ObjectFactory(shared_ptr<resource_map> resources);
 	~ObjectFactory();
 
 	void applyXML(XMLElement*, vector<shared_ptr<GameObject>>*);
 	void applyTemplate(shared_ptr<ObjectTemplate>, shared_ptr<GameObject>);
 	void applyXMLToTemplate(XMLElement*, ObjectTemplate*);
+	void attachComponent(objectComponents comptype, shared_ptr<GameObject> target, ObjectTemplate* temp);
 
 	void getListFromXML(XMLElement*, vector<shared_ptr<GameObject>>* objects, std::shared_ptr<GameObject>);
 	
@@ -37,12 +40,7 @@ public:
 	map<string, shared_ptr<GameObject>> namedObjects;
 
 private:
-	Engine* engine;
-	InputHandler* input;
-	TextureLibrary* library;
-	PhysicsDevice* physics;
-	GraphicsDevice* graphics;
-	SDL_Renderer* renderer;
+	std::shared_ptr<resource_map> resources;
 	unique_ptr<PowerUpFactory> power = make_unique<PowerUpFactory>(this);
 };
 

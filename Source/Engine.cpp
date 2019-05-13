@@ -12,12 +12,62 @@
 
 Engine::Engine(string path)
 {
-	current_map = path;
+	// Apply settings
+	tinyxml2::XMLDocument doc;
+	if (doc.LoadFile(path.c_str()) != tinyxml2::XML_SUCCESS) {
+		printf("Bad File Path");
+		exit(1);
+	}
+	//Get root
+	tinyxml2::XMLElement* root = doc.FirstChildElement("Game");
 
-	library->imgPath = imgPath;
-	factory->xmlPath = xmlPath;
-	sound->musicPath = musicPath;
+	int width = 800, height = 800;
+
+	root = root->FirstChildElement("Settings");
+	if (root != nullptr) {
+		tinyxml2::XMLElement* volume = root->FirstChildElement("Volume");
+		if (volume != nullptr) {
+			int music;
+			if (volume->QueryIntAttribute("music", &music) == XML_SUCCESS) {
+				sound->setMusicVolume(music);
+			}
+			int noise;
+			if (volume->QueryIntAttribute("sound", &noise) == XML_SUCCESS) {
+				sound->setSoundVolume(noise);
+			}
+		}
+		tinyxml2::XMLElement* resolution = root->FirstChildElement("Resolution");
+		if (resolution != nullptr) {
+			resolution->QueryIntAttribute("width", &width);
+			resolution->QueryIntAttribute("height", &height);
+		}
+	}
+
+	gDevice = make_shared<GraphicsDevice>(width, height);
+	input = make_shared<InputHandler>();
+	library = make_shared<TextureLibrary>(resources);
+	sound = make_shared<SoundDevice>();
+	physics = make_shared<PhysicsDevice>(Vector2D{ 0.f, 0.f }, gDevice.get());
+	map = make_unique<MiniMap>(gDevice.get(), imgPath);
+	scoreText = { "0", gDevice->getWidth() - 5, 5, 20, 255, 255, 255, RIGHT };
+
+	resources->engine = this;
+	resources->graphics = gDevice;
+	resources->physics = physics;
+	resources->library = library;
+	resources->sounds = sound;
+	resources->inputs = input;
+
+	factory = make_shared<ObjectFactory>(resources);
+
+	resources->factory = factory;
+
+	resources->imgPath = imgPath;
+	resources->xmlPath = xmlPath;
 	sound->soundPath = soundPath;
+	sound->musicPath = musicPath;
+
+	current_map = path;
 
 	loadLevel(path);
 
@@ -36,24 +86,6 @@ Engine::Engine(string path)
 	physics->createBoundary(rightBound.get(), w + 20, 0, 20, h);
 	physics->createBoundary(bottomBound.get(), 0, h + 20, w, 20);
 
-	// Apply settings
-	tinyxml2::XMLDocument doc;
-	if (doc.LoadFile(path.c_str()) != tinyxml2::XML_SUCCESS) {
-		printf("Bad File Path");
-		exit(1);
-	}
-	//Get root
-	tinyxml2::XMLElement* root = doc.FirstChildElement("Game");
-	root = root->FirstChildElement("Settings");
-	tinyxml2::XMLElement* volume = root->FirstChildElement("Volume");
-	int music;
-	if (volume->QueryIntAttribute("music", &music) == XML_SUCCESS) {
-		sound->setMusicVolume(music);
-	}
-	int noise;
-	if (volume->QueryIntAttribute("sound", &noise) == XML_SUCCESS) {
-		sound->setMusicVolume(noise);
-	}
 }
 
 
@@ -109,7 +141,7 @@ void Engine::loadLevel(string path)
 			body->setAngle(angle * RAD_TO_DEG);
 			body->setType(BodyType::Static);
 			shared_ptr<FWLauncher> launcher = make_shared<FWLauncher>(gob);
-			launcher->initialize(factory.get(), gDevice.get());
+			launcher->initialize(resources);
 			gob->addComponent(launcher);
 			gob->initialize();
 			gob->type = objectTypes::COMPONENT;
@@ -201,8 +233,11 @@ void Engine::draw()
 	gDevice->begin();
 
 	if (gameover) {
-		shared_ptr<Texture> background = library->getArtAsset(imgPath + "background.png");
-		Vector2D tl = { 0.f, 0.f };
+		shared_ptr<Texture> background = library->getArtAsset("background.png");
+		Vector2D tl = {
+			gDevice->getWidth() / 2 - background->width / 2,
+			gDevice->getHeight() / 2 - background->height / 2
+		};
 		background->draw(tl);
 	}
 

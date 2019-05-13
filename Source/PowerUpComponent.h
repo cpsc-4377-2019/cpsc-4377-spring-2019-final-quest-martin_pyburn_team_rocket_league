@@ -12,6 +12,7 @@ class PowerUp : public Component {
 public:
 	PowerUp(std::shared_ptr<GameObject>);
 	~PowerUp();
+	void initialize(std::shared_ptr<resource_map>, ObjectTemplate*) {};
 	void initialize(ObjectFactory*, shared_ptr<ObjectTemplate> temp);
 
 	void start();

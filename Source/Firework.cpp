@@ -2,20 +2,21 @@
 #include "GameObject.h"
 #include "ParticleEmitter.h"
 #include "GraphicsDevice.h"
+#include "SoundDevice.h"
 #include "RidgidBodyComponent.h"
+#include <random>
 
 Firework::Firework(std::shared_ptr<GameObject> owner) : Component(owner)
 {
-	this->gDevice = gDevice;
 }
 
 Firework::~Firework()
 {
 }
 
-bool Firework::initialize(GraphicsDevice * gDevice)
+void Firework::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->gDevice = gDevice;
+	this->resources = resources;
 	shared_ptr<RidgidBody> body = getOwner()->getComponent<RidgidBody>();
 	Vector2D bodpos = body->getPosition();
 	shared_ptr<GameObject> fireworks = getOwner();
@@ -23,7 +24,7 @@ bool Firework::initialize(GraphicsDevice * gDevice)
 	shared_ptr<ParticleParams> params = make_shared<ParticleParams>();
 	params->x = bodpos.x;
 	params->y = bodpos.y;
-	params->texture = "./Assets/Images/puff.png";
+	params->texture = resources->imgPath + "puff.png";
 	params->cx = params->cy = 2.5f;
 	params->rx = params->ry = 0;
 	params->rw = params->rh = 5;
@@ -35,13 +36,12 @@ bool Firework::initialize(GraphicsDevice * gDevice)
 	params->gravity = { 0.f, 0.25f };
 	params->color.setRGB(0xffff88);
 	params->endcol.setRGB(0xff3030);
-	emitter->initialize(gDevice, params);
+	emitter->initialize(resources->graphics.get(), params);
 	emitter->setActivation(true);
 	fireworks->addComponent(emitter);
 	fireworks->initialize();
 
 	burst = 45 + rand() % 45;
-	return false;
 }
 
 void Firework::start()
@@ -59,6 +59,8 @@ shared_ptr<GameObject> Firework::update()
 	if (emitter == nullptr || body == nullptr) return nullptr;
 	if (age++ == burst) {
 		// ROCKETS EXPLODE!!!
+		string sound = (rand() % 2) ? "firework_01.ogg" : "firework_02.ogg";
+		resources->sounds->playSound(sound, 0, -1);
 		emitter->setLifespan(30 + rand() % 20);
 
 		body->setActive(false);

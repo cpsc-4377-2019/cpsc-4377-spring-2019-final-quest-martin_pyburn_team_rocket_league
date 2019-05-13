@@ -2,6 +2,7 @@
 #define FORCEFIELD_H
 
 #include "Component.h"
+#include "Definitions.h"
 
 class ObjectFactory;
 struct ObjectParams;
@@ -11,7 +12,7 @@ public:
 	ForceField(std::shared_ptr<GameObject>);
 	~ForceField();
 
-	bool initialize(ObjectFactory*, ObjectParams*);
+	void initialize(std::shared_ptr<resource_map>, ObjectTemplate*);
 
 	void start();
 	std::shared_ptr<GameObject> update();

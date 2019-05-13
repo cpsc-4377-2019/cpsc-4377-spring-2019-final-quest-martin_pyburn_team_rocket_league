@@ -6,7 +6,7 @@ Chase::Chase(std::shared_ptr<GameObject> owner) : Component(owner){}
 
 Chase::~Chase(){}
 
-void Chase::initialize(ObjectTemplate* temp)
+void Chase::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
 	ObjectParams* chase = (*temp)[CHASEBEHAVIOR].get();
 	if (chase->radius > 0.f)distance = chase->radius;

@@ -55,26 +55,26 @@ private:
 	vector<GameObject*> getMunitions();
 	vector<GameObject*> getComponents();
 
+
+	shared_ptr<resource_map> resources = make_shared<resource_map>();
+
 	vector<shared_ptr<GameObject>> objects;
-	unique_ptr<GraphicsDevice> gDevice = make_unique<GraphicsDevice>();
+	shared_ptr<GraphicsDevice> gDevice;
 
 	// create input handler
-	shared_ptr<InputHandler> input = make_shared<InputHandler>();
+	shared_ptr<InputHandler> input;
 
 	// create texture library
-	unique_ptr<TextureLibrary> library =
-		make_unique<TextureLibrary>(gDevice.get());
+	shared_ptr<TextureLibrary> library;
 
 	// create sound device
-	unique_ptr<SoundDevice> sound = make_unique<SoundDevice>();
+	shared_ptr<SoundDevice> sound;
 
 	// create physics device
-	unique_ptr<PhysicsDevice> physics =
-		make_unique<PhysicsDevice>(Vector2D{ 0.f, 0.f }, gDevice.get());	// there is no gravity
+	shared_ptr<PhysicsDevice> physics;
 
 	// create factory
-	unique_ptr<ObjectFactory> factory =
-		make_unique<ObjectFactory>(this, gDevice->getRenderer(), input.get(), library.get(), physics.get(), gDevice.get());
+	shared_ptr<ObjectFactory> factory;
 
 	// paths
 	string imgPath = "./Assets/Images/";
@@ -84,7 +84,7 @@ private:
 	string fontPath = "./Assets/Fonts/";
 	
 	// MiniMap
-	unique_ptr<MiniMap> map = make_unique<MiniMap>(gDevice.get(), imgPath);
+	unique_ptr<MiniMap> map;
 	bool drawMap{ true };
 
 	vector<Uint32> deathRow;
@@ -112,7 +112,7 @@ private:
 
 	// text rendering
 	vector<textOutput> textout;
-	textOutput scoreText{ "0", gDevice->getWidth() - 5, 5, 20, 255, 255, 255, RIGHT };
+	textOutput scoreText;
 };
 
 

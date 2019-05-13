@@ -2,6 +2,7 @@
 #define USERINPUTCOMPONENT_H
 #include "Component.h"
 #include "InputHandler.h"
+#include "Definitions.h"
 #include <string>
 #include <memory>
 
@@ -13,8 +14,7 @@ public:
 	UserInput(std::shared_ptr<GameObject>);
 	~UserInput();
 
-	void initialize(GraphicsDevice*, InputHandler*, std::string);
-	std::string path = "";
+	void initialize(std::shared_ptr<resource_map> resources, ObjectTemplate* temp);
 
 	void start();
 	void finish();

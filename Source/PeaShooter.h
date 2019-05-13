@@ -2,6 +2,7 @@
 #define PEASHOOTER_H
 
 #include "Component.h"
+#include "Definitions.h"
 
 class GameObject;
 class ObjectFactory;
@@ -12,7 +13,7 @@ public:
 	PeaShooter(std::shared_ptr<GameObject>);
 	~PeaShooter();
 
-	bool initialize(ObjectFactory* factory );
+	void initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp);
 
 	void start();
 	std::shared_ptr<GameObject> update();

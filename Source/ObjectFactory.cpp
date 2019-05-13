@@ -4,6 +4,7 @@
 #include "TextureLibrary.h"
 #include "PhysicsDevice.h"
 #include "GraphicsDevice.h"
+#include "SoundDevice.h"
 #include "SpriteComponent.h"
 #include "RidgidBodyComponent.h"
 #include "ObjectListComponent.h"
@@ -29,13 +30,8 @@
 #include <string>
 
 
-ObjectFactory::ObjectFactory(Engine* engine, SDL_Renderer* renderer, InputHandler* input, TextureLibrary* library, PhysicsDevice* physics, GraphicsDevice* graphics) {
-	this->engine = engine;
-	this->input = input;
-	this->renderer = renderer;
-	this->library = library;
-	this->physics = physics;
-	this->graphics = graphics;
+ObjectFactory::ObjectFactory(shared_ptr<resource_map> resources) {
+	this->resources = resources;
 }
 
 ObjectFactory::~ObjectFactory() {
@@ -79,7 +75,7 @@ void ObjectFactory::applyXML(XMLElement* ObjectXML, vector<shared_ptr<GameObject
 	XMLDocument doc;
 	if (ObjectXML->QueryStringAttribute("external", &external) == XML_SUCCESS) {
 		// load external xml file
-		string externalPath = xmlPath + external;
+		string externalPath = resources->xmlPath + external;
 		if (doc.LoadFile(externalPath.c_str()) != tinyxml2::XML_SUCCESS) {
 			printf("Bad File Path: %s", externalPath.c_str());
 		}
@@ -98,87 +94,47 @@ void ObjectFactory::applyXML(XMLElement* ObjectXML, vector<shared_ptr<GameObject
 
 void ObjectFactory::applyTemplate(shared_ptr<ObjectTemplate> temp, shared_ptr<GameObject> target)
 {
-	if ((*temp)[BODY]->set) {
-		shared_ptr<RidgidBody> newRigidBody = make_shared<RidgidBody>(target);
-		newRigidBody->initialize(renderer, physics, temp.get());
-		target->addComponent(dynamic_pointer_cast<Component>(newRigidBody));
-	}
-	if ((*temp)[SPRITE]->set) {
-		shared_ptr<Sprite> newSprite = make_shared<Sprite>(target);
-		newSprite->initialize(library, temp.get());
-		target->addComponent(dynamic_pointer_cast<Component>(newSprite));
-	}
-	if ((*temp)[USERINPUT]->set) {
-		shared_ptr<UserInput> newUserInput = make_shared<UserInput>(target);
-		newUserInput->initialize(graphics, input, library->imgPath);
-		target->addComponent(dynamic_pointer_cast<Component>(newUserInput));
+	if ((*temp)[BODY]->set) attachComponent(BODY, target, temp.get());
+	if ((*temp)[SPRITE]->set) attachComponent(SPRITE, target, temp.get());
+	if ((*temp)[USERINPUT]->set) attachComponent(USERINPUT, target, temp.get());
+	if ((*temp)[FRAGBEHAVIOR]->set) {
+		shared_ptr<Frag> newFrag = make_shared<Frag>(target);
+		newFrag->initialize(resources, temp.get());
+		target->addComponent(newFrag);
 	}
 	if (target->type != objectTypes::POWERUP) {
-		if ((*temp)[EXPIRE]->set) {
-			shared_ptr<Expire> newExpire = make_shared<Expire>(target);
-			newExpire->initialize(this, graphics, temp.get());
-			target->addComponent(dynamic_pointer_cast<Component>(newExpire));
-		}
-		if ((*temp)[INTEGRITY]->set) {
-			shared_ptr<Integrity> newIntegrity = make_shared<Integrity>(target);
-			newIntegrity->initialize(this, graphics, (*temp)[INTEGRITY].get());
-			target->addComponent(dynamic_pointer_cast<Component>(newIntegrity));
-		}
-		if ((*temp)[FRAGBEHAVIOR]->set) {
-			shared_ptr<Frag> newFrag = make_shared<Frag>(target);
-			newFrag->initialize(graphics, this);
-			target->addComponent(dynamic_pointer_cast<Component>(newFrag));
-		}
-		if ((*temp)[PEASHOOTER]->set) {
-			shared_ptr<PeaShooter> newPeaShooter = make_shared<PeaShooter>(target);
-			newPeaShooter->initialize(this);
-			target->addComponent(dynamic_pointer_cast<Component>(newPeaShooter));
-		}
-		if ((*temp)[MISSILELAUNCHER]->set) {
-			shared_ptr<MissileLauncher> newMissileLauncher = make_shared<MissileLauncher>(target);
-			newMissileLauncher->initialize(this);
-			target->addComponent(dynamic_pointer_cast<Component>(newMissileLauncher));
-		}
-		if ((*temp)[ACCELERATE]->set) {
-			shared_ptr<Accelerate> newAccelerate = make_shared<Accelerate>(target);
-			newAccelerate->initialize(temp.get());
-			target->addComponent(dynamic_pointer_cast<Component>(newAccelerate));
-		}
-		if ((*temp)[CHASEBEHAVIOR]->set) {
-			shared_ptr<Chase> newChase = make_shared<Chase>(target);
-			newChase->initialize(temp.get());
-			target->addComponent(dynamic_pointer_cast<Component>(newChase));
-		}
-		if ((*temp)[EVADEBEHAVIOR]->set) {
-			shared_ptr<Evade> newEvade = make_shared<Evade>(target);
-			newEvade->initialize(temp.get());
-			target->addComponent(dynamic_pointer_cast<Component>(newEvade));
-		}
-		if ((*temp)[STEERBEHAVIOR]->set) {
-			shared_ptr<Steering> newSteer = make_shared<Steering>(target);
-			newSteer->initialize(temp.get());
-			target->addComponent(dynamic_pointer_cast<Component>(newSteer));
-		}
-		if ((*temp)[DRONE]->set) {
-			shared_ptr<Drone> newDrone = make_shared<Drone>(target);
-			newDrone->initialize(this, temp.get());
-			target->addComponent(dynamic_pointer_cast<Component>(newDrone));
-		}
-		if ((*temp)[AUTOFIRE]->set) {
-			shared_ptr<AutoFire> newAuto = make_shared<AutoFire>(target);
-			newAuto->initialize((*temp)[AUTOFIRE].get());
-			target->addComponent(dynamic_pointer_cast<Component>(newAuto));
-		}
-		if ((*temp)[FORCEFIELD]->set) {
-			shared_ptr<ForceField> newAuto = make_shared<ForceField>(target);
-			newAuto->initialize(this, (*temp)[FORCEFIELD].get());
-			target->addComponent(dynamic_pointer_cast<Component>(newAuto));
+		for (int c = 0; c < objectComponents::END; c++) {
+			objectComponents comp = (objectComponents)c;
+			if (comp != BODY && comp != SPRITE && comp != USERINPUT && comp != FRAGBEHAVIOR) {
+				if((*temp)[comp]->set) attachComponent(comp, target, temp.get());
+			}
 		}
 	}
 	else {
 		shared_ptr<PowerUp> newPowerUp = make_shared<PowerUp>(target);
 		newPowerUp->initialize(this, temp);
 		target->addComponent(dynamic_pointer_cast<Component>(newPowerUp));
+	}
+}
+
+void ObjectFactory::attachComponent(objectComponents comptype, shared_ptr<GameObject> target, ObjectTemplate* temp)
+{
+	switch (comptype) {
+		case BODY: target->addComponent(make_shared<RidgidBody>(target))->initialize(resources, temp); break;
+		case SPRITE: target->addComponent(make_shared<Sprite>(target))->initialize(resources, temp); break;
+		case USERINPUT: target->addComponent(make_shared<UserInput>(target))->initialize(resources, temp); break;
+		case CHASEBEHAVIOR: target->addComponent(make_shared<Chase>(target))->initialize(resources, temp); break;
+		case EVADEBEHAVIOR: target->addComponent(make_shared<Evade>(target))->initialize(resources, temp); break;
+		case STEERBEHAVIOR: target->addComponent(make_shared<Steering>(target))->initialize(resources, temp); break;
+		case EXPIRE: target->addComponent(make_shared<Expire>(target))->initialize(resources, temp); break;
+		case INTEGRITY: target->addComponent(make_shared<Integrity>(target))->initialize(resources, temp); break;
+		case FRAGBEHAVIOR: target->addComponent(make_shared<Frag>(target))->initialize(resources, temp); break;
+		case PEASHOOTER: target->addComponent(make_shared<PeaShooter>(target))->initialize(resources, temp); break;
+		case MISSILELAUNCHER: target->addComponent(make_shared<MissileLauncher>(target))->initialize(resources, temp); break;
+		case ACCELERATE: target->addComponent(make_shared<Accelerate>(target))->initialize(resources, temp); break;
+		case DRONE: target->addComponent(make_shared<Drone>(target))->initialize(resources, temp); break;
+		case AUTOFIRE: target->addComponent(make_shared<AutoFire>(target))->initialize(resources, temp); break;
+		case FORCEFIELD: target->addComponent(make_shared<ForceField>(target))->initialize(resources, temp); break;
 	}
 }
 
@@ -250,7 +206,7 @@ void ObjectFactory::getListFromXML(XMLElement* ObjectXML, vector<shared_ptr<Game
 	if (ChildrenXML != nullptr) {
 		// attach ObjectList component
 		shared_ptr<ObjectList> comp = make_shared<ObjectList>(object);
-		comp->initialize();
+		comp->initialize(nullptr, nullptr);
 		object->addComponent(dynamic_pointer_cast<Component>(comp));
 
 		for (tinyxml2::XMLElement* obj = ChildrenXML->FirstChildElement(); obj != NULL; obj = obj->NextSiblingElement()) {
@@ -264,5 +220,5 @@ void ObjectFactory::getListFromXML(XMLElement* ObjectXML, vector<shared_ptr<Game
 
 std::shared_ptr<GameObject> ObjectFactory::getPower()
 {
-	return power->getPower(engine->getShip());
+	return power->getPower(resources->engine->getShip());
 }

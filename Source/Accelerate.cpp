@@ -10,7 +10,7 @@ Accelerate::~Accelerate()
 {
 }
 
-void Accelerate::initialize(ObjectTemplate* temp )
+void Accelerate::initialize(std::shared_ptr<resource_map> resources, ObjectTemplate* temp )
 {
 	acceleration = (*temp)[ACCELERATE]->x;
 }

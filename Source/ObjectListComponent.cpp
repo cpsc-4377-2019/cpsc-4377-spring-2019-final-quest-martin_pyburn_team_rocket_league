@@ -10,7 +10,7 @@ ObjectList::~ObjectList()
 {
 }
 
-void ObjectList::initialize()
+void ObjectList::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
 }
 

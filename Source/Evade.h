@@ -15,7 +15,7 @@ public:
 	Evade(std::shared_ptr<GameObject>);
 	~Evade();
 
-	void initialize(ObjectTemplate* temp);
+	void initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp);
 
 	void start();
 	void finish();

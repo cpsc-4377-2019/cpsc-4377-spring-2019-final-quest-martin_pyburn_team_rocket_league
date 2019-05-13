@@ -20,8 +20,8 @@ public:
 
 	void setAsBackground(std::string &background);
 	void setAsBackground(BackgroundMusic* background);
-	Uint8 setMusicVolume(Uint8 volume);
-	Uint8 setSoundVolume(Uint8 volume);
+	int setMusicVolume(int volume);
+	int setSoundVolume(int volume);
 
 	bool removeSound(std::string &name);
 	bool initialized{ false };

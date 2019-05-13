@@ -28,8 +28,9 @@ bool AudioLibrary::addBackgroundMusic(std::string path)
 SoundEffect * AudioLibrary::playSoundEffect(std::string &name)
 {
 	auto sound = soundEffectLibrary.find(name);
-	if (sound != soundEffectLibrary.end()) return sound->second.get();
-	return nullptr;
+	if (sound == soundEffectLibrary.end())
+		addSoundEffect(name);
+	return soundEffectLibrary.find(name)->second.get();
 }
 
 BackgroundMusic * AudioLibrary::playBackgroundMusic(std::string &name)

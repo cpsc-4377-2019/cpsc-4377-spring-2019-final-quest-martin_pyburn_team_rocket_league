@@ -6,6 +6,7 @@
 
 Steering::Steering(std::shared_ptr<GameObject> owner):Component(owner)
 {
+	this->resources = resources;
 	distSel = make_unique<DistanceSelector>(owner.get());
 	distSel->setChaseRadius(radius);
 	distSel->setFleeRadius(0.f);
@@ -18,7 +19,7 @@ Steering::~Steering()
 
 }
 
-void Steering::initialize(ObjectTemplate* temp)
+void Steering::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
 	ObjectParams* steer = (*temp)[STEERBEHAVIOR].get();
 	if (steer->radius > 0.f)radius = steer->radius;
@@ -27,14 +28,14 @@ void Steering::initialize(ObjectTemplate* temp)
 	chase = getOwner()->getComponent<Chase>();
 	if (chase == nullptr) {
 		shared_ptr<Chase> newChase = make_shared<Chase>(getOwner());
-		newChase->initialize(temp);
+		newChase->initialize(resources, temp);
 		chase = dynamic_pointer_cast<Chase>(getOwner()->addComponent(dynamic_pointer_cast<Component>(newChase)));
 	}
 	// make sure we have an evade component
 	evade = getOwner()->getComponent<Evade>();
 	if (evade == nullptr) {
 		shared_ptr<Evade> newEvade = make_shared<Evade>(getOwner());
-		newEvade->initialize(temp);
+		newEvade->initialize(resources, temp);
 		evade = dynamic_pointer_cast<Evade>(getOwner()->addComponent(dynamic_pointer_cast<Component>(newEvade)));
 	}
 	chase->distance = radius;

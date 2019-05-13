@@ -8,13 +8,14 @@ class ParticleParams;
 class GameObject;
 class GraphicsDevice;
 class ObjectFactory;
+class ObjectTemplate;
 
 class FWLauncher : public Component {
 public:
 	FWLauncher(std::shared_ptr<GameObject>);
 	~FWLauncher();
 
-	bool initialize(ObjectFactory*, GraphicsDevice*);
+	void initialize(std::shared_ptr<resource_map> resources, ObjectTemplate* temp = nullptr);
 
 	void start();
 	std::shared_ptr<GameObject> update();
@@ -23,8 +24,7 @@ public:
 	void draw();
 
 private:
-	GraphicsDevice* gDevice;
-	ObjectFactory* factory;
+	std::shared_ptr<resource_map> resources;
 	int delay{ 0 };
 };
 

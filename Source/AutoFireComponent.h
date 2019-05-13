@@ -2,16 +2,17 @@
 #define AUTOFIRE_H
 
 #include "Component.h"
+#include "Definitions.h"
 
 class GameObject;
-class ObjectParams;
+class ObjectTemplate;
 
 class AutoFire : public Component {
 public:
 	AutoFire(std::shared_ptr<GameObject>);
 	~AutoFire();
 
-	bool initialize(ObjectParams*);
+	void initialize(std::shared_ptr<resource_map> resources, ObjectTemplate* temp);
 
 	void start();
 	std::shared_ptr<GameObject> update();

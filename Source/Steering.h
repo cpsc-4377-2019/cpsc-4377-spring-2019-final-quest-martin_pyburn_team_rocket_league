@@ -15,7 +15,7 @@ public:
 	Steering(std::shared_ptr<GameObject>);
 	~Steering();
 
-	void initialize(ObjectTemplate*);
+	void initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp);
 
 	void start();
 	void finish();
@@ -27,6 +27,8 @@ public:
 private:
 	float radius{ 100.f };
 	float retreat{ 50.f };
+
+	shared_ptr<resource_map> resources;
 
 	States state = NA;
 	std::unique_ptr<DistanceSelector> distSel;

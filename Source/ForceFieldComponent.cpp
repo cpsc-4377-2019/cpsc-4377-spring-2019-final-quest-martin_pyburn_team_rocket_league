@@ -12,12 +12,12 @@ ForceField::~ForceField()
 {
 }
 
-bool ForceField::initialize(ObjectFactory * factory, ObjectParams* fieldParams)
+void ForceField::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->factory = factory;
+	this->factory = resources->factory.get();
 	shared_ptr<RidgidBody> obody = getOwner()->getComponent<RidgidBody>();
 	Vector2D opos = obody->getPosition();
-
+	ObjectParams* fieldParams = (*temp)[FORCEFIELD].get();
 	// construct drone template
 	fieldTemplate = make_shared<ObjectTemplate>();
 	ObjectParams* fieldBody = (*fieldTemplate)[BODY].get();
@@ -37,7 +37,6 @@ bool ForceField::initialize(ObjectFactory * factory, ObjectParams* fieldParams)
 	ObjectParams* fieldInt = (*fieldTemplate)[INTEGRITY].get();
 	fieldInt->value = fieldParams->value;
 	fieldInt->set = true;
-	return false;
 }
 
 void ForceField::start()

@@ -13,7 +13,7 @@ PowerUp::~PowerUp()
 {
 }
 
-void PowerUp::initialize(ObjectFactory* factory, shared_ptr<ObjectTemplate>temp)
+void PowerUp::initialize(ObjectFactory* factory, shared_ptr<ObjectTemplate> temp)
 {
 	this->factory = factory;
 	components = temp;

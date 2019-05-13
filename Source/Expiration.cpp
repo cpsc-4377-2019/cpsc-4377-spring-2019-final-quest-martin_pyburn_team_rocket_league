@@ -2,6 +2,7 @@
 #include "Expiration.h"
 #include "ObjectDefinitions.h"
 #include "RidgidBodyComponent.h"
+#include "SoundDevice.h"
 #include "ObjectFactory.h"
 #include "ParticleEmitter.h"
 #include <chrono>
@@ -26,10 +27,9 @@ void Expire::finish()
 {
 }
 
-void Expire::initialize(ObjectFactory* factory, GraphicsDevice* gDevice, ObjectTemplate* temp )
+void Expire::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->factory = factory;
-	this->gDevice = gDevice;
+	this->resources = resources;
 
 	if( (*temp)[ EXPIRE ]->set )
 		the_end = (*temp)[ EXPIRE ]->value;
@@ -40,7 +40,6 @@ std::shared_ptr<GameObject> Expire::update()
 	shared_ptr<GameObject> owner = getOwner();
 	if (!dead && (owner->distress || counting && SDL_GetTicks() >= the_end)) {
 		dead = true;
-		cout << "missile dying" << endl;
 		if(owner->type == objectTypes::MISSILE)
 			return spawnEmitter();
 	}
@@ -50,6 +49,8 @@ std::shared_ptr<GameObject> Expire::update()
 
 std::shared_ptr<GameObject> Expire::spawnEmitter()
 {
+	resources->sounds->playSound(string("explosion_01.ogg"), 0, -1);
+
 	shared_ptr<RidgidBody> obod = getOwner()->getComponent<RidgidBody>();
 	if (obod == nullptr)return nullptr;
 	Vector2D opos = obod->getPosition();
@@ -62,23 +63,23 @@ std::shared_ptr<GameObject> Expire::spawnEmitter()
 
 	shared_ptr<GameObject> em = make_shared<GameObject>();
 	em->type = objectTypes::COMPONENT;
-	factory->applyTemplate(ot, em);
+	resources->factory->applyTemplate(ot, em);
 	shared_ptr<ParticleParams> params = make_shared<ParticleParams>();
 	eFloat area = obod->getArea();
-	params->lifespan = 8;
+	params->lifespan = 15;
 	params->parttime = 64;
 	params->ppf = 30;
-	params->texture = "./Assets/Images/puff.png";
-	params->speed = 20;
+	params->texture = resources->imgPath + "puff.png";
+	params->speed = 5;
 	params->x = opos.x;
 	params->y = opos.y;
 	params->rx = params->ry = 0;
-	params->rw = params->rh = 5;
+	params->rw = params->rh = 8;
 	params->cx = params->cy = 2.5f;
-	params->color = RGBA{ 196, 255, 64, 255 };
-	params->endcol = RGBA{ 128, 64 ,32 ,255 };
+	params->color = RGBA{ 255, 196, 64, 128 };
+	params->endcol = RGBA{ 128, 0 ,0 ,255 };
 	shared_ptr<Emitter> emc = make_shared<Emitter>(em);
-	emc->initialize(gDevice, params);
+	emc->initialize(resources->graphics.get(), params);
 	em->addComponent(emc);
 
 	return em;

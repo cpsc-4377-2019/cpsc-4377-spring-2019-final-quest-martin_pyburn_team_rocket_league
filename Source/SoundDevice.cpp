@@ -53,7 +53,7 @@ bool SoundDevice::playSound(SoundEffect * sound, int numLoops, int channel)
 bool SoundDevice::playSound(std::string &sound, int numLoops, int channel)
 //**************************************
 {
-	return playSound(aLibrary->playSoundEffect(sound), numLoops, channel);
+	return playSound(aLibrary->playSoundEffect(soundPath + sound), numLoops, channel);
 }
 //**************************************
 //set's the background music to play.
@@ -71,16 +71,16 @@ void SoundDevice::setAsBackground(BackgroundMusic * background)
 	}
 }
 
-Uint8 SoundDevice::setMusicVolume(Uint8 volume)
+int SoundDevice::setMusicVolume(int volume)
 {
-	Uint8 v = fmin(volume, 128);
+	int v = fmin(volume, 128);
 	Mix_VolumeMusic(v);
 	return v;
 }
 
-Uint8 SoundDevice::setSoundVolume(Uint8 volume)
+int SoundDevice::setSoundVolume(int volume)
 {
-	Uint8 v = fmin(volume, 128);
+	int v = fmin(volume, 128);
 	Mix_Volume(v, -1);
 	return v;
 }

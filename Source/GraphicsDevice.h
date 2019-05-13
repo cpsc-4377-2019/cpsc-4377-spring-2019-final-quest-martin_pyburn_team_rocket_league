@@ -11,7 +11,7 @@ class GraphicsDevice
 {
 
 public:
-	GraphicsDevice();
+	GraphicsDevice(int w, int h);
 	~GraphicsDevice();
 	int getWidth();
 	int getHeight();

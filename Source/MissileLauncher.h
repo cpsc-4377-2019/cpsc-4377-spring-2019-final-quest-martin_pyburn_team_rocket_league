@@ -2,6 +2,7 @@
 #define MISSILELAUNCHER_H
 
 #include "Component.h"
+#include "Definitions.h"
 #include <vector>
 #include <memory>
 
@@ -15,7 +16,7 @@ public:
 	~MissileLauncher();
 	void start();
 	void finish();
-	bool initialize(ObjectFactory * factory);
+	void initialize(std::shared_ptr<resource_map> resources, ObjectTemplate* temp);
 	std::shared_ptr<GameObject> update();
 
 	std::shared_ptr<GameObject> fire();

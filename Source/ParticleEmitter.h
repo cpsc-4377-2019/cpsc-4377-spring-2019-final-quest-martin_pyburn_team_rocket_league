@@ -42,7 +42,7 @@ class Emitter : public Component {
 public:
 	Emitter(std::shared_ptr<GameObject>);
 	~Emitter();
-
+	void initialize(std::shared_ptr<resource_map>, ObjectTemplate*) {};
 	bool initialize(GraphicsDevice*, shared_ptr<ParticleParams>);
 
 	void start();

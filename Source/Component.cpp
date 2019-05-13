@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "ObjectDefinitions.h"
+#include "Definitions.h"
 
 Component::Component(std::shared_ptr<GameObject> owner) : _owner( owner ) { }
 

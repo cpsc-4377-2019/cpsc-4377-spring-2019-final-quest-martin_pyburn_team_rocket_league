@@ -13,7 +13,7 @@ class ObjectList : public Component {
 public:
 	ObjectList(std::shared_ptr<GameObject>);
 	~ObjectList();
-	void initialize();
+	void initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp);
 
 	void start();
 	std::shared_ptr<GameObject> update();

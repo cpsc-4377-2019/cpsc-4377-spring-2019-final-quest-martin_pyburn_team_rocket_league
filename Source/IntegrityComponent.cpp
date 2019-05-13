@@ -5,6 +5,7 @@
 #include "RidgidBodyComponent.h"
 #include "ParticleEmitter.h"
 #include "GraphicsDevice.h"
+#include "SoundDevice.h"
 #include "GameObject.h"
 #include "Component.h"
 
@@ -16,12 +17,10 @@ Integrity::~Integrity()
 {
 }
 
-bool Integrity::initialize(ObjectFactory* factory, GraphicsDevice* gDevice, ObjectParams* params)
+void Integrity::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	integrity = params->value;
-	this->factory = factory;
-	this->gDevice = gDevice;
-	return false;
+	integrity = (*temp)[INTEGRITY]->value;
+	this->resources = resources;
 }
 
 void Integrity::start()
@@ -62,23 +61,23 @@ shared_ptr<GameObject> Integrity::spawnEmitter()
 
 	shared_ptr<GameObject> em = make_shared<GameObject>();
 	em->type = objectTypes::COMPONENT;
-	factory->applyTemplate(ot, em);
+	resources->factory->applyTemplate(ot, em);
 	shared_ptr<ParticleParams> params = make_shared<ParticleParams>();
 	eFloat area = obod->getArea();
-	params->lifespan = fmax(area / 50, 5);
-	params->parttime = fmax(area, 30);
+	params->lifespan = fmax(area / 30, 10);
+	params->parttime = fmax(area, 60);
 	params->ppf = fmax(area / 30, 10);
-	params->texture = "./Assets/Images/puff.png";
-	params->speed = 10;
+	params->texture = resources->imgPath + "puff.png";
+	params->speed = 4;
 	params->x = opos.x;
 	params->y = opos.y;
 	params->rx = params->ry = 0;
-	params->rw = params->rh = 5;
+	params->rw = params->rh = 15;
 	params->cx = params->cy = 2.5f;
-	params->color = RGBA{ 196, 196, 196, 255 };
+	params->color = RGBA{ 196, 196, 196, 128 };
 	params->endcol = RGBA{ 64, 64 ,64 ,0 };
 	shared_ptr<Emitter> emc = make_shared<Emitter>(em);
-	emc->initialize(gDevice, params);
+	emc->initialize(resources->graphics.get(), params);
 	em->addComponent(emc);
 
 	return em;

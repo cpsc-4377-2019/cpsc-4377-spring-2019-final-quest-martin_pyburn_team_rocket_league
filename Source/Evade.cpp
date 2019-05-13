@@ -9,7 +9,7 @@ Evade::~Evade()
 
 }
 
-void Evade::initialize(ObjectTemplate* temp) 
+void Evade::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
 	ObjectParams* evade = (*temp)[EVADEBEHAVIOR].get();
 	if (evade->radius > 0.f)distance = evade->radius;

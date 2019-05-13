@@ -12,12 +12,11 @@ AutoFire::~AutoFire()
 {
 }
 
-bool AutoFire::initialize(ObjectParams* params)
+void AutoFire::initialize(std::shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
+	ObjectParams* params = (*temp)[AUTOFIRE].get();
 	range = params->radius;
 	precision = params->value;
-
-	return false;
 }
 
 void AutoFire::start()

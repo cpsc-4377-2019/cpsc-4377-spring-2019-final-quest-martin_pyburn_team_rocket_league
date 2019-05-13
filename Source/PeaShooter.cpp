@@ -24,10 +24,9 @@ PeaShooter::~PeaShooter()
 {
 }
 
-bool PeaShooter::initialize(ObjectFactory* factory)
+void PeaShooter::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->factory = factory;
-	return factory != nullptr;
+	this->factory = resources->factory.get();
 }
 
 void PeaShooter::start(){

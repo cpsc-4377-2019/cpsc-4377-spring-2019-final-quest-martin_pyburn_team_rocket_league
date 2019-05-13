@@ -33,10 +33,9 @@ void MissileLauncher::start() { }
 
 void MissileLauncher::finish() { }
 
-bool MissileLauncher::initialize(ObjectFactory* factory)
+void MissileLauncher::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->factory = factory;
-	return factory != nullptr;
+	this->factory = resources->factory.get();
 }
 
 std::shared_ptr<GameObject> MissileLauncher::update()

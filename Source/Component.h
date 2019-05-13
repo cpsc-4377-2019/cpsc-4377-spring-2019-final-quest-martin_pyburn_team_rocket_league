@@ -5,6 +5,7 @@
 
 class GameObject;
 class ObjectTemplate;
+class resource_map;
 
 union SDL_Event;
 
@@ -18,6 +19,7 @@ public:
 	virtual void start() = 0;
 	virtual std::shared_ptr<GameObject> update() = 0;
 	virtual void finish() = 0;
+	virtual void initialize(std::shared_ptr<resource_map>, ObjectTemplate*) = 0;
 	void setActivation(bool active) { activated = active; };
 
 

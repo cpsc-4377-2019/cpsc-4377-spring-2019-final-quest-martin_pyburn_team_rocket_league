@@ -2,6 +2,7 @@
 #define DRONE_H
 
 #include "Component.h"
+#include "Definitions.h"
 
 class GameObject;
 class ObjectFactory;
@@ -13,7 +14,7 @@ public:
 	Drone(std::shared_ptr<GameObject>);
 	~Drone();
 
-	bool initialize(ObjectFactory* factory, ObjectTemplate* temp);
+	void initialize(std::shared_ptr<resource_map> resources, ObjectTemplate* temp);
 
 	void start();
 	std::shared_ptr<GameObject> update();
