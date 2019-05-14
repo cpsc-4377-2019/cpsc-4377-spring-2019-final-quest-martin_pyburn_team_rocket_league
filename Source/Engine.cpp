@@ -6,12 +6,18 @@
 #include "PhysicsDevice.h"
 #include "RidgidBodyComponent.h"
 #include "SpriteComponent.h"
+#include "IntegrityComponent.h"
+#include "MissileLauncher.h"
 #include "FireworksLauncher.h"
 #include "MiniMap.h"
 #include "SDL_ttf.h"
 
 Engine::Engine(string path)
 {
+	// SoundDevice must be created so we can set the volume from xml
+	sound = make_shared<SoundDevice>();
+	resources->sounds = sound;
+
 	// Apply settings
 	tinyxml2::XMLDocument doc;
 	if (doc.LoadFile(path.c_str()) != tinyxml2::XML_SUCCESS) {
@@ -43,20 +49,24 @@ Engine::Engine(string path)
 		}
 	}
 
-	gDevice = make_shared<GraphicsDevice>(width, height);
-	input = make_shared<InputHandler>();
-	library = make_shared<TextureLibrary>(resources);
-	sound = make_shared<SoundDevice>();
-	physics = make_shared<PhysicsDevice>(Vector2D{ 0.f, 0.f }, gDevice.get());
-	map = make_unique<MiniMap>(gDevice.get(), imgPath);
-	scoreText = { "0", gDevice->getWidth() - 5, 5, 20, 255, 255, 255, RIGHT };
-
 	resources->engine = this;
+
+	gDevice = make_shared<GraphicsDevice>(width, height);
 	resources->graphics = gDevice;
-	resources->physics = physics;
-	resources->library = library;
-	resources->sounds = sound;
+	
+	input = make_shared<InputHandler>();
 	resources->inputs = input;
+	
+	library = make_shared<TextureLibrary>(resources);
+	resources->library = library;
+	
+	physics = make_shared<PhysicsDevice>(Vector2D{ 0.f, 0.f }, resources);
+	resources->physics = physics;
+	
+	map = make_unique<MiniMap>(gDevice.get(), imgPath);
+	int rightSide = gDevice->getWidth();
+	scoreText = { "0",	rightSide - 5,	5, 20,	255,255, 255,	RIGHT };
+	hpText = { "100",	rightSide - 40,	5, 20,	0,	255, 0,		RIGHT };
 
 	factory = make_shared<ObjectFactory>(resources);
 
@@ -115,6 +125,8 @@ void Engine::loadLevel(string path)
 	// check if END
 	if (root == nullptr) {
 		gameover = true;
+		sound->setMusicVolume(128);
+		sound->setSoundVolume(32);
 		sound->setAsBackground(string("win.wav"));
 		SDL_SetRenderDrawColor(gDevice->getRenderer(), 0, 0, 0, 255);
 		int center = gDevice->getWidth() / 2;
@@ -199,6 +211,9 @@ void Engine::update()
 		}
 		else if (objects[it]->type == objectTypes::SHIP) {
 			// the ship is dead, the screen is red
+			if(!playdead)
+				resources->sounds->playSound(string("death_01.ogg"), 0, 5);
+			playdead = true;
 			win = false;
 			SDL_SetRenderDrawColor(gDevice->getRenderer(), 192, 0, 0, 255);
 		}
@@ -265,7 +280,7 @@ void Engine::draw()
 
 	if(debug)physics->debugDraw();
 	
-	if(batchText()) drawScore();
+	if(batchText()) drawHUD();
 	;
 	gDevice->present();
 }
@@ -347,7 +362,7 @@ void Engine::clearText()
 	vector<textOutput>().swap(textout);
 }
 
-void Engine::drawText(textOutput output)
+int Engine::drawText(textOutput output)
 {
 	TTF_Font* normalFont = TTF_OpenFont((fontPath + "PixelOperator8-Bold.ttf").c_str(), output.size);
 	SDL_Color textColor = { (Uint8)output.red, (Uint8)output.green, (Uint8)output.blue };
@@ -366,12 +381,32 @@ void Engine::drawText(textOutput output)
 	//Render to screen
 	SDL_RenderCopy(gDevice.get()->getRenderer(), textSheetTexture, NULL, &renderQuad);
 	SDL_FreeSurface(textSurface);
+	return rx;
 }
 
-void Engine::drawScore()
+void Engine::drawHUD()
 {
-	scoreText.text = to_string(final_score + score);
-	drawText(scoreText);
+	GameObject* ship = getShip();
+	if (ship != nullptr) {
+		scoreText.text = to_string(final_score + score);
+		shared_ptr<Integrity> integ = ship->getComponent<Integrity>();
+		if (integ != nullptr) {
+			integ->integrity = fmin(integ->integrity, HP_MAX * 2);
+			hpText.text = to_string((int)(integ->integrity / HP_MAX * 100));
+		}
+		hpText.x = drawText(scoreText) - 5;
+		drawText(hpText);
+		shared_ptr<MissileLauncher> ml = ship->getComponent<MissileLauncher>();
+		if (ml != nullptr) {
+			int ammo = ml->getAmmoCount();
+			float x = gDevice->getWidth() - ammo * 30.f;
+			Texture* ammotex = library->getArtAsset("missile_ammo.png").get();
+			for (int a = 0; a < ammo; a++) {
+				ammotex->draw(Vector2D{ x, 40 }, 0.f);
+				x += 30.f;
+			}
+		}
+	}
 }
 
 GameObject* Engine::getShip()

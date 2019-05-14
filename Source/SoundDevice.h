@@ -23,7 +23,8 @@ public:
 	int setMusicVolume(int volume);
 	int setSoundVolume(int volume);
 
-	bool removeSound(std::string &name);
+	void stopChannel(int channel);
+
 	bool initialized{ false };
 
 	string musicPath;

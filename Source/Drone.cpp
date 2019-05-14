@@ -88,6 +88,7 @@ std::shared_ptr<GameObject> Drone::update()
 		}
 		shared_ptr<GameObject> aggro = cowner->getAggro();
 		if (aggro != nullptr) {
+			if (!aggro->live) return aggro = nullptr;
 			owner->aggro = aggro;
 
 			// face the aggro

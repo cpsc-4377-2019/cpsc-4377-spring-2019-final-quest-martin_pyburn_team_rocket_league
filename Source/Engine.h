@@ -41,8 +41,8 @@ public:
 	void queueText(textOutput);
 	bool batchText();
 	void clearText();
-	void drawText(textOutput);
-	void drawScore();
+	int drawText(textOutput);
+	void drawHUD();
 
 	GameObject* getShip();
 
@@ -96,10 +96,11 @@ private:
 	bool lobby{ false };
 	bool debug{ false };
 	bool gameover{ false };
+	bool playdead{ false };
 	int level{ 0 };
 	int final_score = 0;
 	int score = 0;
-
+	int HP_MAX{ 250 };
 	GameObject* ship;
 
 	string current_map{ "" };
@@ -113,6 +114,7 @@ private:
 	// text rendering
 	vector<textOutput> textout;
 	textOutput scoreText;
+	textOutput hpText;
 };
 
 

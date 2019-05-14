@@ -2,13 +2,16 @@
 #define CONTACTLISTENER_H
 
 #include "Box2D.h"
+#include "Definitions.h"
 #include <vector>
 
 class  GameObject;
+class SoundDevice;
+
 class ContactListener : public b2ContactListener
 {
 public:
-
+	ContactListener(SoundDevice*);
 	void BeginContact(b2Contact* contact) {}
 
 	void EndContact(b2Contact* contact) {}
@@ -18,6 +21,9 @@ public:
 	void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {}
 
 private:
+
+	SoundDevice* sounds;
+
 	void BulletHit(std::shared_ptr<GameObject> bullet, std::shared_ptr<GameObject> target);
 	void MissileHit(std::shared_ptr<GameObject> missile, std::shared_ptr<GameObject> target);
 	void ShipCrash(std::shared_ptr<GameObject> ship, std::shared_ptr<GameObject> notship);
@@ -25,14 +31,14 @@ private:
 
 	enum actionType { B_O, O_B, M_O, O_M, S_O, O_S, S_P, P_S, NA };
 	std::vector<std::vector<actionType>> actions{
-		//				SHIP	PLANET	ENEMY	POWERUP BULLET	MISSILE	COMP MINERAL	NA
-		/* SHIP vs: */{	NA,		S_O,	S_O,	S_P,	NA,		NA,		NA,	 NA},
-		/* PLAN vs: */{	O_S,	NA,		NA,		NA,		O_B,	O_M,	NA,	 NA},
-		/* ENEM vs: */{	O_S,	NA,		NA,		S_P,	O_B,	O_M,	NA,	 NA},
+		//				SHIP	PLANET	ENEMY	POWERUP BULLET	MISSILE	COMP NA
+		/* SHIP vs: */{	NA,		S_O,	S_O,	S_P,	O_B,	NA,		S_O, NA},
+		/* PLAN vs: */{	O_S,	NA,		NA,		NA,		O_B,	O_M,	O_S, NA},
+		/* ENEM vs: */{	O_S,	NA,		NA,		S_P,	O_B,	O_M,	O_S, NA},
 		/* POWE vs: */{	P_S,	NA,		P_S,	NA,		NA,		NA,		P_S, NA},
-		/* BULL vs: */{	NA,		B_O,	B_O,	NA,		NA,		NA,		NA,	 NA},
-		/* MISS vs: */{	NA,		M_O,	M_O,	NA,		NA,		NA,		NA,	 NA},
-		/* COMP vs: */{	NA,		NA,		NA,		S_P,	NA,		NA,		NA,	 NA},
+		/* BULL vs: */{	B_O,	B_O,	B_O,	NA,		NA,		NA,		B_O, NA},
+		/* MISS vs: */{	NA,		M_O,	M_O,	NA,		NA,		NA,		M_O, NA},
+		/* COMP vs: */{	O_S,	S_O,	S_O,	S_P,	O_B,	O_M,	NA,	 NA},
 		/* NA   vs: */{	NA,		NA,		NA,		NA,		NA,		NA,		NA,	 NA}
 	};
 };

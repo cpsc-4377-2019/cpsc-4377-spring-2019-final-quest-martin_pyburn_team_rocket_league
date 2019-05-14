@@ -6,7 +6,13 @@
 #include "PeaShooter.h"
 #include "MissileLauncher.h"
 #include "PowerUpComponent.h"
+#include "SoundDevice.h"
 
+
+ContactListener::ContactListener(SoundDevice* sounds)
+{
+	this->sounds = sounds;
+}
 
 void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
@@ -34,7 +40,6 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
 		proceed = false;
 		bodyB->SetActive(false);
 	}
-	//cout << objectA->type << " " << objectB->type << endl;
 
 	if(proceed) switch (actions[objectA->type][objectB->type]) {
 	case actionType::B_O: // bullet vs object
@@ -69,23 +74,32 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
 
 void ContactListener::BulletHit(std::shared_ptr<GameObject> bullet, std::shared_ptr<GameObject> target)
 {
+	sounds->playSound(string("blip_01.ogg"), 0, -1);
 	shared_ptr<Integrity> targeti = target->getComponent<Integrity>();
-	if(targeti != nullptr) targeti->damage(bullet->damage);
 	if (target->live && bullet->origin != nullptr && bullet->origin->type == objectTypes::SHIP) {
 		bullet->origin->aggro = target;
 	}
-	if (targeti->integrity <= 0) {
-		bullet->origin->score += target->points;
+	if (targeti != nullptr) {
+		targeti->damage(bullet->damage);
+		if (targeti->integrity <= 0 && bullet->origin != nullptr) {
+			bullet->origin->score += target->points;
+			if (target->type == objectTypes::ENEMY)
+				sounds->playSound(string("explosion_03.ogg"), 0, -1);
+		}
 	}
 }
 
 void ContactListener::MissileHit(std::shared_ptr<GameObject> missile, std::shared_ptr<GameObject> target)
 {
 	shared_ptr<Integrity> targeti = target->getComponent<Integrity>();
-	if (targeti != nullptr) targeti->damage(missile->damage);
+	if (targeti != nullptr) {
+		targeti->damage(missile->damage);
 
-	if (targeti->integrity <= 0) {
-		missile->origin->score += target->points;
+		if (targeti->integrity <= 0 && missile->origin != nullptr) {
+			missile->origin->score += target->points;
+			if (target->type == objectTypes::ENEMY)
+				sounds->playSound(string("explosion_03.ogg"), 0, -1);
+		}
 	}
 
 	// kill the missile
@@ -94,7 +108,6 @@ void ContactListener::MissileHit(std::shared_ptr<GameObject> missile, std::share
 
 void ContactListener::ShipCrash(std::shared_ptr<GameObject> ship, std::shared_ptr<GameObject> notship)
 {
-	// Allow shields to take damage
 	shared_ptr<Integrity> shipi = ship->getComponent<Integrity>();
 	shared_ptr<Integrity> noti = notship->getComponent<Integrity>();
 	shared_ptr<RidgidBody> sbody = ship->getComponent<RidgidBody>();
@@ -108,6 +121,7 @@ void ContactListener::ShipCrash(std::shared_ptr<GameObject> ship, std::shared_pt
 		float angle = atan2f(spos.y - npos.y, spos.x - npos.x);
 		float mag = sqrtf(powf((svel.x - nvel.x) * cosf(angle), 2.f) + powf((svel.y - nvel.y) * sinf(angle), 2.f));
 		if (mag > 30.f) {
+			sounds->playSound(string("bounce_01.ogg"), 0, 3);
 			float sdamage = notship->damage + nbody->getArea() / 500.f * mag;
 			shipi->damage(sdamage);
 			float ndamage = ship->damage + sbody->getArea() / 500.f * mag;
@@ -123,6 +137,9 @@ void ContactListener::GetPowerUp(std::shared_ptr<GameObject> ship, std::shared_p
 {	// If a powerup hits a component, pass it up to the owner of the component
 	if(ship->type == objectTypes::COMPONENT)ship = ship->origin;
 	if (ship == nullptr) return;
+	if(ship->type == objectTypes::SHIP)
+		sounds->playSound(string("powerup_01.ogg"), 0, 4);
+	else sounds->playSound(string("pipe_01.ogg"), 0, 4);
 
 	// add score
 	ship->score += powerup->points;

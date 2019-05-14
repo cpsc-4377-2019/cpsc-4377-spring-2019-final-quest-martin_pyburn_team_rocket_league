@@ -23,7 +23,8 @@ public:
 	bool inputStatus( InputHandler::Inputs );
 
 private:
-	InputHandler* input;
+	bool rumbling{ false };
+	std::shared_ptr<resource_map> resources;
 	float speedLimit = 800.f;
 	float speed = 8.f;
 	float turnSpeed = 57.296f;

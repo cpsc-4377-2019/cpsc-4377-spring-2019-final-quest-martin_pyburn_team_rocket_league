@@ -1,6 +1,7 @@
 #include "Steering.h"
 #include "GameObject.h"
 #include "DistanceSelectorNode.h"
+#include "SoundDevice.h"
 #include "RetreatNode.h"
 
 
@@ -21,6 +22,7 @@ Steering::~Steering()
 
 void Steering::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
+	this->resources = resources;
 	ObjectParams* steer = (*temp)[STEERBEHAVIOR].get();
 	if (steer->radius > 0.f)radius = steer->radius;
 	if (steer->value > 0.f)retreat = steer->value;
@@ -80,6 +82,7 @@ void Steering::changeState(States state)
 		break;
 
 	case States::FLEE:
+		resources->sounds->playSound(string("alien_01.ogg"));
 		mode = States::FLEE;
 		distSel->setFleeRadius(dist + retreat);
 		evade->distance = 9999.f;

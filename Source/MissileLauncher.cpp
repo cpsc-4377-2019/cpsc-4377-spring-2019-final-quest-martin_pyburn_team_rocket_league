@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "ObjectFactory.h"
 #include "RidgidBodyComponent.h"
+#include "SoundDevice.h"
 #include <chrono>
 
 using namespace chrono;
@@ -35,7 +36,7 @@ void MissileLauncher::finish() { }
 
 void MissileLauncher::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->factory = resources->factory.get();
+	this->resources = resources;
 }
 
 std::shared_ptr<GameObject> MissileLauncher::update()
@@ -58,7 +59,7 @@ shared_ptr<GameObject> MissileLauncher::fire()
 	last_fired = tic;
 	// attempt to create a missile
 	shared_ptr<GameObject> missile = make_shared<GameObject>();
-	factory->applyTemplate(missileTemplate, missile);
+	resources->factory->applyTemplate(missileTemplate, missile);
 	if (missile != nullptr) {
 		ammo--;
 		// acquire the necessary components
@@ -91,6 +92,7 @@ shared_ptr<GameObject> MissileLauncher::fire()
 			}
 		);
 		missileBody->setFilterIndex(shipBody->layer);
+		resources->sounds->playSound(string("pewpew_01.ogg"), 0, -1);
 	}
 
 	// apply Munition type

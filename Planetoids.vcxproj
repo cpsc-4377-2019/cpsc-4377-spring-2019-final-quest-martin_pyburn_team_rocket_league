@@ -103,7 +103,7 @@
     <Link>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;Box2D.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TargetMachine />
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <SuppressStartupBanner>false</SuppressStartupBanner>
@@ -166,7 +166,7 @@ copy "$(ProjectDir)ThirdParty\SDL2\lib\x86\*.dll" "$(ProjectDir)"</Command>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;Box2D.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <TargetMachine />
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>

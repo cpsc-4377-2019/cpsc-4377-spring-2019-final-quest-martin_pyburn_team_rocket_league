@@ -16,7 +16,7 @@ public:
 	//Tricky trying to get initialize into one of the constructors.
 	PhysicsDevice() = delete;
 	~PhysicsDevice();
-	PhysicsDevice(Vector2D gravity, GraphicsDevice* gDevice);
+	PhysicsDevice(Vector2D gravity, std::shared_ptr<resource_map> resources);
 
 	bool update(float dt);
 	bool createFixture(RidgidBody* object, BodyPresets presets);

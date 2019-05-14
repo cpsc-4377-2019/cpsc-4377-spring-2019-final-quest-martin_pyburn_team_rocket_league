@@ -19,7 +19,8 @@ std::shared_ptr<GameObject> Chase::update()
 {
 	shared_ptr<GameObject> aggro = getOwner()->getAggro();
 	// check if action is needed
-	if (aggro == nullptr || !aggro->live || activated == false)return nullptr;
+	if (aggro == nullptr || activated == false)return nullptr;
+	if (!aggro->live) return aggro = nullptr;
 	
 	shared_ptr<RidgidBody> body = getOwner()->getComponent<RidgidBody>();
 	shared_ptr<RidgidBody> tbody = aggro->getComponent<RidgidBody>();

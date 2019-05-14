@@ -60,6 +60,11 @@ void ObjectFactory::applyXML(XMLElement* ObjectXML, vector<shared_ptr<GameObject
 	if (ObjectXML->QueryStringAttribute("aggro", &aggroName) == XML_SUCCESS)
 		object->aggro = namedObjects[aggroName];
 
+	// assign points
+	int points;
+	if (ObjectXML->QueryIntAttribute("points", &points) == XML_SUCCESS)
+		object->points = points;
+
 	// assess danger
 	float damage;
 	if(ObjectXML->QueryFloatAttribute("damage", &damage) == XML_SUCCESS)

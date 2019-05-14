@@ -26,6 +26,7 @@ public:
 	template<class T>
 	shared_ptr<T> getComponent()
 	{
+		if (this == nullptr)return nullptr;
 		for (auto comp : components)
 		{
 			shared_ptr<T> t = nullptr;

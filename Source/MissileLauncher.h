@@ -36,7 +36,7 @@ private:
 	int reload_interval = 1800;
 	int last_reload = 0;
 	int last_fired = 0;
-	ObjectFactory* factory;
+	std::shared_ptr<resource_map> resources;
 
 };
 

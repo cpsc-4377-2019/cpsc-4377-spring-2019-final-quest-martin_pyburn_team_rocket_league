@@ -3,6 +3,7 @@
 #include "GraphicsDevice.h"
 #include "GameObject.h"
 #include "RidgidBodyComponent.h"
+#include "SoundDevice.h"
 #include "PeaShooter.h"
 #include "MissileLauncher.h"
 #include "ParticleEmitter.h"
@@ -13,7 +14,7 @@ UserInput::~UserInput() { }
 
 void UserInput::initialize(shared_ptr<resource_map> resources, ObjectTemplate* temp)
 {
-	this->input = resources->inputs.get();
+	this->resources = resources;
 	shared_ptr<ParticleParams> params = make_shared<ParticleParams>();
 	params->texture = resources->imgPath + "puff.png";
 	params->ppf = 1;
@@ -67,7 +68,10 @@ std::shared_ptr<GameObject> UserInput::update()
 	bool forward = input->inputStatus(InputHandler::Inputs::FORWARD);
 	jets->setActivation(forward);
 	if (forward) {
-
+		if (!rumbling) {
+			rumbling = true;
+			resources->sounds->playSound(string("rumble_01.ogg"), -1, 5);
+		}
 		eFloat imp = speed * body->density;
 		// move forward
 		body->applyImpulse(Vector2D{ new_comp.x * imp, new_comp.y * imp });
@@ -80,6 +84,10 @@ std::shared_ptr<GameObject> UserInput::update()
 		float citation = speedLimit - mag;
 		if (citation < 0)
 			body->applyImpulse(Vector2D{current_comp.x * citation , current_comp.y * citation });
+	}
+	else if (rumbling) {
+		rumbling = false;
+		resources->sounds->stopChannel(5);
 	}
 	if (input->inputStatus(InputHandler::Inputs::LEFT))
 		body->setRotation(-turnSpeed);
@@ -108,5 +116,5 @@ std::shared_ptr<GameObject> UserInput::update()
 
 bool UserInput::inputStatus( InputHandler::Inputs key )
 {
-	return input->keyStates[ key ];
+	return resources->inputs->keyStates[ key ];
 }

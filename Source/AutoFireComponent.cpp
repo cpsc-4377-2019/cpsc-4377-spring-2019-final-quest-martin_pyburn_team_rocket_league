@@ -25,8 +25,12 @@ void AutoFire::start()
 
 std::shared_ptr<GameObject> AutoFire::update()
 {
-	shared_ptr<GameObject> aggro = getOwner()->getAggro();
+	shared_ptr<GameObject> owner = getOwner();
+	shared_ptr<GameObject> aggro = owner->getAggro();
 	if (aggro != nullptr) {
+
+		if (!aggro->live) return aggro = nullptr;
+
 		shared_ptr<RidgidBody> aggroBody = aggro->getComponent<RidgidBody>();
 		shared_ptr<RidgidBody> body = getOwner()->getComponent<RidgidBody>();
 		Vector2D aggroPos = aggroBody->getPosition();

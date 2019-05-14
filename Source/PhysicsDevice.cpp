@@ -17,12 +17,12 @@ PhysicsDevice::~PhysicsDevice()
 {
 }
 
-PhysicsDevice::PhysicsDevice(Vector2D gravity, GraphicsDevice* gDevice) :gravity(gravity.x, gravity.y)
+PhysicsDevice::PhysicsDevice(Vector2D gravity, shared_ptr<resource_map> resources) :gravity(gravity.x, gravity.y)
 {
 	world = std::make_unique<b2World>(GV2PV(gravity));
-	ContactListener* c1 = new ContactListener();
+	ContactListener* c1 = new ContactListener(resources->sounds.get());
 	world->SetContactListener(c1);
-	B2Debugger = std::make_shared<B2Debug>(gDevice, this);
+	B2Debugger = std::make_shared<B2Debug>(resources->graphics.get(), this);
 	B2Debugger->SetFlags(b2Draw::e_shapeBit | b2Draw::e_aabbBit);
 	world->SetDebugDraw(B2Debugger.get());
 }

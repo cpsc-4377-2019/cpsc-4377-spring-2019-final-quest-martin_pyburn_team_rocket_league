@@ -85,6 +85,11 @@ int SoundDevice::setSoundVolume(int volume)
 	return v;
 }
 
+void SoundDevice::stopChannel(int channel)
+{
+	Mix_HaltChannel(channel);
+}
+
 
 //Mix_Chunk * SoundDevice::getSoundEffect(std::string name)
 //{
@@ -124,8 +129,8 @@ int SoundDevice::setSoundVolume(int volume)
 //}
 //**************************************
 //Have not set this up yet, as there has bee no need for it.
-bool SoundDevice::removeSound(std::string &name)
+//bool SoundDevice::removeSound(std::string &name)
 //**************************************
-{
-	return false;
-}
+//{
+//	return false;
+//}
